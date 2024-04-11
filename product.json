@@ -1,0 +1,352 @@
+[
+    {
+      "id": 1,
+      "name": "Sweatshirt",
+      "company": "Puma",
+      "price": 29,
+      "size": "",
+      "image": "assets/product_01.jpg",
+      "productimg":[
+        "assets/product_01.jpg",
+        "assets/product_02.jpg",
+        "assets/product_03.jpg",
+        "assets/product_01.jpg",
+        "assets/product_02.jpg"],
+      "colorimg1":"assets/product_02b.jpg",
+      "colorimg2":"assets/product_02b.jpg",
+      "details":"Enhance your athletic performance with Puma Sleeves – the perfect blend of style and functionality. Designed to provide optimum support and comfort, these sleeves are crafted from high-quality, breathable materials that keep you cool during intense workouts. The Puma Sleeves feature a sleek and modern design, making them a fashionable accessory for any fitness enthusiast. Whether you're hitting the gym, going for a run, or engaging in your favorite sports activity, these sleeves offer a snug fit that enhances muscle warmth and circulation.",
+      "comment1":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Max",
+      "username2":"Alice",
+      "user1":"assets/ig_01.jpg",
+      "user2":"assets/ig_02.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Trackpant",
+      "company": "Adidas",
+      "price": 49.99,
+      "size": "",
+      "image": "assets/product_02.jpg",
+      "productimg":[
+        "assets/product_02.jpg",
+        "assets/product_02.jpg",
+        "assets/product_03.jpg",
+        "assets/product_01.jpg",
+        "assets/product_02.jpg"],
+      "details":"Enhance your athleic performance with Puma Sleeves – the perfect blend of style and functionality. Designed to provide optimum support and comfort, these sleeves are crafted from high-quality, breathable materials that keep you cool during intense workouts. The Puma Sleeves feature a sleek and modern design, making them a fashionable accessory for any fitness enthusiast. Whether you're hitting the gym, going for a run, or engaging in your favorite sports activity, these sleeves offer a snug fit that enhances muscle warmth and circulation.",
+      "comment1":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Bob",
+      "username2":"Alex",
+      "user1":"assets/ig_01.jpg",
+      "user2":"assets/ig_02.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Trackpant",
+      "company": "Nike",
+      "price": 42.99,
+      "size": "",
+      "image": "assets/product_03.jpg",
+      "productimg":[
+        "assets/product_02.jpg",
+        "assets/product_02.jpg",
+        "assets/product_03.jpg",
+        "assets/product_01.jpg",
+        "assets/product_02.jpg"],
+      "details":"Enhance your athletic performance with Puma Sleeves – the perfect blend of style and functionality. Designed to provide optimum support and comfort, these sleeves are crafted from high-quality, breathable materials that keep you cool during intense workouts. The Puma Sleeves feature a sleek and modern design, making them a fashionable accessory for any fitness enthusiast. Whether you're hitting the gym, going for a run, or engaging in your favorite sports activity, these sleeves offer a snug fit that enhances muscle warmth and circulation.",
+      "comment1":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Bob",
+      "username2":"Alex",
+      "user1":"assets/ig_01.jpg",
+      "user2":"assets/ig_02.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-half-fill",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Hooded Sweatshirt",
+      "company": "Gap",
+      "price": 39.99,
+      "size": "Medium",
+      "image": "assets/product_04.jpg",
+      "productimg": [
+        "assets/product_02.jpg",
+        "assets/product_02.jpg",
+        "assets/product_03.jpg",
+        "assets/product_01.jpg",
+        "assets/product_02.jpg"
+      ],
+      "details": "Stay warm and stylish with our comfortable Gap Hooded Sweatshirt. Crafted from soft and durable fabric, this sweatshirt is perfect for chilly days. The hood provides extra warmth, and the kangaroo pocket adds a touch of functionality. Whether you're lounging at home or heading out, this sweatshirt is a versatile addition to your wardrobe.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Emma",
+      "username2": "Charlie",
+      "user1": "assets/ig_03.jpg",
+      "user2": "assets/ig_04.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Denim Jeans",
+      "company": "Levi's",
+      "price": 59.99,
+      "size": "32x32",
+      "image": "assets/product_05.jpg",
+      "productimg": [
+        "assets/product_03.jpg",
+        "assets/product_03.jpg",
+        "assets/product_02.jpg",
+        "assets/product_01.jpg",
+        "assets/product_02.jpg"
+      ],
+      "details": "Step out in style with Levi's Denim Jeans. These classic jeans feature a comfortable fit and timeless design. Made from high-quality denim, they're durable and versatile for various occasions. Pair them with your favorite shirt or sweater for a casual yet polished look.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Olivia",
+      "username2": "James",
+      "user1": "assets/ig_05.jpg",
+      "user2": "assets/ig_06.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-half-fill",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Striped T-Shirt",
+      "company": "H&M",
+      "price": 19.99,
+      "size": "Small",
+      "image": "assets/product_06.jpg",
+      "productimg": [
+        "assets/product_06.jpg",
+        "assets/product_06.jpg",
+        "assets/product_07.jpg",
+        "assets/product_01.jpg",
+        "assets/product_06.jpg"
+      ],
+      "details": "Add a pop of color to your wardrobe with the H&M Striped T-Shirt. Made from soft and breathable fabric, this shirt offers both comfort and style. The striped pattern adds a playful touch, making it a versatile choice for casual outings or layering with your favorite jacket.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Sophia",
+      "username2": "Daniel",
+      "user1": "assets/ig_07.jpg",
+      "user2": "assets/ig_08.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Summer Dress",
+      "company": "Zara",
+      "price": 49.99,
+      "size": "Medium",
+      "image": "assets/product_07.jpg",
+      "productimg": [
+        "assets/product_07.jpg",
+        "assets/product_07.jpg",
+        "assets/product_08.jpg",
+        "assets/product_01.jpg",
+        "assets/product_07.jpg"
+      ],
+      "details": "Stay cool and stylish in the Zara Summer Dress. Perfect for warm days, this dress features a light and flowy design. The vibrant colors and floral pattern add a touch of elegance. Whether you're attending a summer party or strolling in the park, this dress is a go-to choice for a chic look.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Ava",
+      "username2": "Liam",
+      "user1": "assets/ig_09.jpg",
+      "user2": "assets/ig_10.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Casual Blazer",
+      "company": "Topshop",
+      "price": 69.99,
+      "size": "Large",
+      "image": "assets/product_08.jpg",
+      "productimg": [
+        "assets/product_08.jpg",
+        "assets/product_08.jpg",
+        "assets/product_09.jpg",
+        "assets/product_01.jpg",
+        "assets/product_08.jpg"
+      ],
+      "details": "Elevate your casual look with the Topshop Casual Blazer. This versatile blazer adds a touch of sophistication to any outfit. Whether you pair it with jeans for a laid-back vibe or dress it up with a skirt, this blazer is a must-have for a polished appearance.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Mia",
+      "username2": "Noah",
+      "user1": "assets/ig_11.jpg",
+      "user2": "assets/ig_12.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-half-fill",
+        "ri-star-line",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Ripped Jeans",
+      "company": "Forever 21",
+      "price": 34.99,
+      "size": "28x30",
+      "image": "assets/product_01.jpg",
+      "productimg": [
+        "assets/product_09.jpg",
+        "assets/product_09.jpg",
+        "assets/product_10.jpg",
+        "assets/product_01.jpg",
+        "assets/product_09.jpg"
+      ],
+      "details": "Stay on-trend with Forever 21 Ripped Jeans. These stylish jeans feature distressed details for a casual and edgy look. The slim fit and medium rise make them a comfortable and flattering choice. Whether you're heading to a casual outing or a night out with friends, these jeans are a fashion statement.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Ethan",
+      "username2": "Isabella",
+      "user1": "assets/ig_13.jpg",
+      "user2": "assets/ig_14.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-half-fill",
+        "ri-star-line",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Printed Tunic",
+      "company": "Mango",
+      "price": 54.99,
+      "size": "Small",
+      "image": "assets/product_02.jpg",
+      "productimg": [
+        "assets/product_10.jpg",
+        "assets/product_10.jpg",
+        "assets/product_01.jpg",
+        "assets/product_01.jpg",
+        "assets/product_10.jpg"
+      ],
+      "details": "Make a statement with the Mango Printed Tunic. This vibrant tunic features a unique print and relaxed fit. Perfect for casual days, the tunic pairs well with leggings or jeans. Embrace a bohemian-inspired look with this stylish addition to your wardrobe.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Charlotte",
+      "username2": "Liam",
+      "user1": "assets/ig_15.jpg",
+      "user2": "assets/ig_16.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-fill"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Printed Maxi Dress",
+      "company": "Zalando",
+      "price": 69.99,
+      "size": "Medium",
+      "image": "assets/product_03.jpg",
+      "productimg": [
+        "assets/product_11.jpg",
+        "assets/product_11.jpg",
+        "assets/product_12.jpg",
+        "assets/product_01.jpg",
+        "assets/product_11.jpg"
+      ],
+      "details": "Make a statement with the Zalando Printed Maxi Dress. This elegant maxi dress features a unique print and a flattering silhouette. Perfect for special occasions or a summer day out, this dress is sure to turn heads. Embrace the boho-chic vibes with this stylish addition to your wardrobe.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Grace",
+      "username2": "Henry",
+      "user1": "assets/ig_17.jpg",
+      "user2": "assets/ig_18.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Cargo Shorts",
+      "company": "Urban Outfitters",
+      "price": 29.99,
+      "size": "Large",
+      "image": "assets/product_04.jpg",
+      "productimg": [
+        "assets/product_12.jpg",
+        "assets/product_12.jpg",
+        "assets/product_01.jpg",
+        "assets/product_01.jpg",
+        "assets/product_12.jpg"
+      ],
+      "details": "Stay comfortable and trendy with Urban Outfitters Cargo Shorts. These versatile shorts feature multiple pockets and a relaxed fit, making them ideal for casual outings or outdoor activities. Pair them with a t-shirt or tank top for a laid-back and stylish look.",
+      "comment1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "comment2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "username1": "Ella",
+      "username2": "Jackson",
+      "user1": "assets/ig_19.jpg",
+      "user2": "assets/ig_20.jpg",
+      "icons":[
+        "ri-star-fill",
+        "ri-star-fill",
+        "ri-star-line",
+        "ri-star-line",
+        "ri-star-line"
+      ]
+    }
+    
+  
+  ]
+  

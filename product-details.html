@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .header {
+            background-color: rgba(78, 73, 73, 0.6);
+            color: white;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+        }
+
+        .left-elements h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .left-elements a {
+            color: #f2f2f2;
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .center-elements ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+
+        }
+
+        .center-elements li {
+            margin-right: 20px;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .center-elements a {
+            text-decoration: none;
+            color: white;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .right-elements .elements {
+            display: flex;
+            font-size: 21px;
+            margin-right: 10px;
+            gap: 7px;
+
+        }
+
+        .heart a {
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .heart i {
+            text-decoration: none;
+            color: white;
+            border: none;
+        }
+
+        .float1,
+        .float2 {
+            position: absolute;
+            font-size: 14px;
+            background-color: bisque;
+            color: black;
+            border-radius: 50%;
+            padding: 5px 6px 6px 5px;
+            width: 5px;
+            height: 5px;
+            line-height: 5px;
+            text-align: center;
+            top: 5px;
+        }
+
+        .float1 {
+            right: 58px;
+        }
+
+        .float2 {
+            right: 30px;
+        }
+
+        .search {
+            position: relative;
+        }
+
+        .search i {
+            transition: opacity 0.3s ease-in-out;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .search input {
+            position: absolute;
+            top: 0;
+            left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 5px;
+            border-color: none;
+        }
+
+
+        .detail-container {
+            display: flex;
+        }
+
+        /**/
+
+        /**/
+        .sliders-container {
+            margin-top: 70px;
+            margin-left: 20px;
+            border: 1px solid transparent;
+        }
+
+        .slider {
+            width: 145px;
+            height: 480px;
+            /* Adjusted height to show 4 images at a time */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+            scrollbar-width: thin;
+            /* For Firefox */
+            scrollbar-color: transparent transparent;
+            /* For Firefox */
+            scroll-behavior: smooth;
+
+        }
+
+        /* WebKit specific styles to hide the scrollbar */
+        .slider::-webkit-scrollbar {
+            width: 0.001em;
+        }
+
+        .slider::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+
+        .slider img {
+            width: 97%;
+            /* Make the images fill the container width */
+            height: auto;
+            /* Maintain the aspect ratio of the images */
+            display: block;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            /* Set the equal spacing between images */
+        }
+
+        .arrow {
+            font-size: 50px;
+            margin-left: 38px;
+            text-decoration: none;
+            border: none;
+            background-color: transparent;
+            transition: ease-in-out 0.3s;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .arrow:hover {
+            transform: scale(1.08);
+        }
+
+        .slider img.active {
+            border: 2px solid #1e1e1e;
+            /* Set the border color and width for the highlighted state */
+        }
+
+        .slider-container {
+            width: 700px;
+            /* Set your desired width */
+            height: 560px;
+            /* Set your desired height */
+            overflow: hidden;
+            /* Hide overflow to ensure the image covers the container */
+            border: 1px solid transparent;
+            margin-top: 90px;
+            margin-left: 0px;
+        }
+
+        .slider-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Ensure the image covers the container */
+        }
+
+        .product-details {
+            margin-left: 3px;
+        }
+
+        .product-info {
+            font-size: 30px;
+            margin-top: 85px;
+            margin-bottom: 20px;
+        }
+
+        .circle {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2px;
+            cursor: pointer;
+            box-sizing: border-box;
+            border: 2.5px solid transparent;
+            transition: background-color 0.3s, color 0.3s;
+            /* Transparent border by default */
+        }
+
+        .inner-circle1,
+        .inner-circle2 {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+        }
+
+        .inner-circle1 {
+            background-color: rgb(109, 219, 182);
+            /* Blue color */
+        }
+
+        .inner-circle2 {
+            background-color: rgb(18, 199, 199);
+            /* Red color */
+        }
+
+        .selected {
+            border-color: black;
+        }
+
+        .colors,
+        .size {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .size-box {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #a29f9f;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .heading {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        .product-description {
+            width: 32%;
+            /* Adjust the width as per your preference */
+            position: absolute;
+            font-size: 18px;
+            margin-top: 9px;
+        }
+
+        .buttons-containers {
+            margin-top: 220px;
+        }
+
+        .wish,
+        .cart {
+            width: 200px;
+            height: 50px;
+            font-size: 30px;
+            margin-right: 10px;
+            border-radius: 10px;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .box-selected {
+            background-color: rgb(9, 8, 8);
+            color: white;
+        }
+
+        .markers {
+            display: flex;
+        }
+
+        .icons-container {
+            font-size: 30px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            margin-top: -15px;
+        }
+
+        .text {
+            right: 180px;
+            display: flex;
+            position: absolute;
+            margin-top: 45px;
+        }
+
+        .text h1 {
+            margin-right: 10px;
+            font-size: 17px;
+        }
+
+        .comment-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 50px;
+            margin-left: 20px;
+        }
+
+        .comment {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .comment-circle {
+            width: 300px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            /* Ensure the image is clipped within the circle */
+            margin-right: 20px;
+            margin-top: -100px;
+        }
+
+        .comment-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Maintain aspect ratio and cover the entire container */
+        }
+
+        .comment-content {
+            flex-grow: 1;
+        }
+
+        .comment-content h2 {
+            margin: 0;
+            /* Remove default margin for h2 */
+        }
+
+        .bag a {
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .bag i {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        h5 {
+            font-size: 30px;
+            margin-left: 40px;
+        }
+
+
+        .product {
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .image-container {
+            width: 330px;
+            /* Set your desired fixed width */
+            height: 440px;
+            /* Set your desired fixed height */
+            position: relative;
+            overflow: hidden;
+            /* Ensure the overflow is hidden to prevent the buttons from being visible outside the container */
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .buttons-container {
+            position: absolute;
+            bottom: -50px;
+            /* Initially hide the buttons below the image container */
+            left: 80px;
+            display: flex;
+            transition: bottom 0.3s ease;
+            /* Add a smooth transition effect */
+        }
+
+        .image-container:hover {
+            transform: scale(1.05);
+            /* Zoom in the image on hover */
+        }
+
+        .image-container:hover .buttons-container {
+            bottom: 50px;
+            /* Move the buttons up on hover */
+        }
+
+        .image-container:not(:hover) .buttons-container {
+            bottom: -50px;
+            /* Move the buttons down when not hovering */
+        }
+
+        #details,
+        .p-wish,
+        #share {
+            background-color: #828588;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 25px;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+            transition: transform 0.3s ease;
+        }
+
+        #details:hover,
+        .p-wish:hover,
+        #share:hover {
+            transform: scale(1.2);
+        }
+
+        button-heart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background-color: rgb(133, 137, 141);
+            width: 35px;
+            /* Set the width of the circular padding */
+            height: 35px;
+            /* Set the height of the circular padding */
+            border-radius: 50%;
+            position: absolute;
+            margin-top: -436px;
+            right: 8px;
+            /* Adjust the right position as needed */
+        }
+
+        button-heart i {
+            color: white;
+            /* Set the color of the heart icon */
+        }
+
+        .view {
+            position: relative;
+            transition: transform 0.3s ease;
+            /* Add transition property */
+        }
+
+        .image-container:hover .button-heart {
+            transform: scale(1.05);
+            /* Scale the view when hovering over image-container */
+        }
+
+        .info-strip {
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            /* Set your desired height here */
+            background-color: rgba(93, 82, 82, 0.7);
+            color: #fff;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            transition: bottom 0.2s ease;
+        }
+
+        .info-strip .product-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 100%;
+            margin-top: 3px;
+            margin-left: 18px;
+        }
+
+        .product-info .company,
+        .product-info .product-name,
+        .product-info .price {
+            margin-bottom: 1px;
+        }
+
+        .company {
+            font-size: 18px;
+        }
+
+        .product-name {
+            font-size: 17px;
+        }
+
+        .price {
+            font-size: 18px;
+        }
+
+        .review {
+            font-size: 18px;
+            margin-right: 10px;
+            margin-top: 22px;
+        }
+
+        .image-container:hover .info-strip {
+            bottom: -70px;
+        }
+
+        .products-container {
+            flex: 1;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .related-products {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="left-elements">
+            <a href="index.html">
+                <h1>LOGO</h1>
+            </a>
+        </div>
+        <div class="center-elements">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="http://">SHOP</a></li>
+                <li><a href="http://">BLOG</a></li>
+                <li><a href="http://">ABOUT US</a></li>
+            </ul>
+        </div>
+        <div class="right-elements">
+            <div class="elements">
+                <div class="search" onclick="toggleSearch()">
+                    <i class="ri-search-line" id="searchIcon"></i>
+                    <input type="text" placeholder="Search..." id="searchInput" onkeydown="handleSearch()">
+                </div>
+                <div class="heart"><a href="wishlist.html"><i class="ri-heart-line"></i></a>
+                    <span class="float1" id="wishlist-count">4</span>
+                </div>
+                <div class="bag"><a href="cart.html"><i class="ri-shopping-cart-line"></i></a>
+                    <span class="float2" id="cartitems">4</span>
+                </div>
+                <div class="acc"><i class="ri-account-circle-line"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="detail-container">
+        <div class="sliders-container">
+            <button class="arrow" onclick="scrollSlider(-200)"><i class="ri-arrow-up-s-line"></i></button>
+            <div class="slider" id="slider">
+                <img src="assets/product_03.jpg" id="image1" alt="Image 1" onclick="highlightImage(0)">
+                <img src="assets/product_01.jpg" id="image2" alt="Image 2" onclick="highlightImage(1)">
+                <img src="assets/product_03.jpg" id="image3" alt="Image 3" onclick="highlightImage(2)">
+                <img src="assets/product_02.jpg" id="image4" alt="Image 4" onclick="highlightImage(3)">
+                <img src="assets/product_03.jpg" id="image5" alt="Image 5" onclick="highlightImage(4)">
+            </div>
+            <button class="arrow" onclick="scrollSlider(200)"><i class="ri-arrow-down-s-line"></i></button>
+        </div>
+        <div class="slider-container"></div>
+        <div class="product-details">
+            <div class="product-info">
+                <div class="p-company" id="company"></div>
+                <div class="p-name" id="product-name">FUll sleeve</div>
+                <div class="p-price" id="price"></div>
+            </div>
+            <div class="colors">
+                <div class="circle" id="5">
+                    <div class="inner-circle1"></div>
+                </div>
+                <div class="circle" id="6">
+                    <div class="inner-circle2"></div>
+                </div>
+            </div>
+            <div class="size">
+                <div class="size-box" id="1">S</div>
+                <div class="size-box" id="2">M</div>
+                <div class="size-box" id="3">L</div>
+                <div class="size-box" id="4">XL</div>
+            </div>
+            <div class="heading">Product-Description</div>
+            <div class="product-description" id="product-detail"></div>
+            <div class="buttons-containers">
+                <button class="wish" id="wish"><i class="ri-heart-3-line"></i></button>
+                <button class="cart" id="cart"><i class="ri-shopping-bag-line"></i></button>
+            </div>
+            <div class="markers">
+                <div class="icons-container"><i class="ri-shield-check-line"></i></div>
+                <div class="icons-container"><i class="ri-truck-line"></i></div>
+                <div class="icons-container"><i class="ri-customer-service-line"></i></div>
+                <div class="icons-container"><i class="ri-leaf-line"></i></div>
+                <div class="text">
+                    <h1>Quality Check</h1>
+                    <h1>Fast Delivery</h1>
+                    <h1>Customer Care</h1>
+                    <h1>Sustainable</h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="comment-container">
+        <!-- Comment 1 -->
+        <div class="comment">
+            <div class="comment-circle">
+                <img src="assets/ban.jpg" id="user-1" alt="User Image">
+            </div>
+            <div class="comment-content">
+                <h2 id="username-1"></h2>
+                <p id="comment-1"></p>
+            </div>
+        </div>
+
+        <!-- Comment 2 -->
+        <div class="comment">
+            <div class="comment-circle">
+                <img src="assets/blog_01.jpg" id="user-2" alt="User Image">
+            </div>
+            <div class="comment-content">
+                <h2 id="username-2"></h2>
+                <p id="comment-2"></p>
+            </div>
+        </div>
+    </div>
+    <h5>Related Products</h5>
+    <div class="related-products">
+        <div class="products-container" id="products-container"></div>
+        <div class="products-container" id="male-products-container"></div>
+        <div class="products-container" id="kid-products-container"></div>
+    </div>
+
+
+    <script src="script.js"></script>
+
+    <script>
+
+        const searchIconElement = document.getElementById('searchIcon');
+        const searchInputElement = document.getElementById('searchInput');
+        let productsData;
+
+        const loadProductData = async () => {
+            try {
+                const response = await fetch('product.json');
+                productsData = await response.json();
+            } catch (error) {
+                console.error('Error loading product data:', error);
+            }
+        };
+
+        loadProductData();
+
+        function hideSearch() {
+            searchIconElement.style.opacity = 0;
+            searchInputElement.style.opacity = 1;
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        function showSearch() {
+            searchIconElement.style.opacity = 1;
+            searchInputElement.style.opacity = 0;
+            document.removeEventListener('click', handleOutsideClick); // Remove the event listener
+        }
+
+        function toggleSearch() {
+            hideSearch();
+        }
+
+        function handleOutsideClick(event) {
+            if (!event.target.closest('.search')) {
+                showSearch();
+            }
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const inputValue = searchInputElement.value.toLowerCase();
+                const matchingProducts = productsData.filter(product => (
+                    product.name.toLowerCase().includes(inputValue) || product.company.toLowerCase().includes(inputValue)
+                ));
+
+                if (matchingProducts.length > 0) {
+                    const product = matchingProducts[0]; // Assuming the first matching product
+                    const isConfirmed = confirm(`Product found!\n\nName: ${product.name}\nCompany: ${product.company}\n\nOptions:\n1. Okay\n2. Visit`);
+
+                    if (isConfirmed) {
+                        const productDetailsURL = `${window.location.origin}/product-details.html?id=${product.id}`;
+                        window.location.href = productDetailsURL;
+                    } else {
+                        alert('Product not available.');
+                    }
+                } else {
+                    alert('Product not available.');
+                }
+
+                // Reset the search input
+                searchInputElement.value = '';
+                showSearch();
+            }
+        }
+
+        // Attach the event listener to the input
+        searchInputElement.addEventListener('keyup', handleSearch);
+
+
+        // Attach the event listener to the input
+        document.addEventListener("DOMContentLoaded", function () {
+            const companyId = document.getElementById("company");
+            const productNameId = document.getElementById("product-name");
+            const priceId = document.getElementById("price");
+            const sliderContainer = document.getElementById("slider");
+            const productDetailId = document.getElementById("product-detail");
+
+            const username1 = document.getElementById("username-1");
+            const comment1 = document.getElementById("comment-1");
+            const user1 = document.getElementById("user-1");
+
+            const username2 = document.getElementById("username-2");
+            const comment2 = document.getElementById("comment-2");
+            const user2 = document.getElementById("user-2");
+
+            const wishButton = document.getElementById("wish"); // Added this line
+            const heartIcon = wishButton.querySelector('i');
+
+            // Get the product ID from the URL query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            // Generate a unique key for the product in localStorage
+
+            wishButton.addEventListener("click", function () {
+                toggleHeart(productId); // Call the existing toggleHeart function
+            });
+            const isClicked = JSON.parse(localStorage.getItem(`wishlist-${productId}`));
+            if (isClicked) {
+                wishButton.classList.add('clicked');
+                heartIcon.className = 'ri-heart-fill';
+                // Assuming you want to change the heart color to red
+                heartIcon.style.color = 'red';
+            }
+
+
+            // Fetch product data based on the product ID
+            fetch('product.json')
+                .then(response => response.json())
+                .then(products => {
+                    const product = products.find(p => p.id === productId);
+
+                    // Render product details
+                    companyId.textContent = product.company;
+                    productNameId.textContent = product.name;
+                    priceId.textContent = `$${product.price.toFixed(2)}`;
+                    productDetailId.textContent = product.details;
+
+                    username1.textContent = product.username1;
+                    comment1.textContent = product.comment1;
+                    user1.src = product.user1;
+
+                    username2.textContent = product.username2;
+                    comment2.textContent = product.comment2;
+                    user2.src = product.user2;
+
+                    // Update slider images
+                    for (let i = 0; i < product.productimg.length; i++) {
+                        const imageElement = document.getElementById(`image${i + 1}`);
+                        if (imageElement) {
+                            // Set the image source dynamically based on the product data
+                            imageElement.src = product.productimg[i];
+                        }
+                    }
+
+                    // Get the first image element in the slider and highlight it
+                    const firstImageElement = document.getElementById('image1');
+                    if (firstImageElement) {
+                        const index = parseInt(firstImageElement.id.slice(-1)) - 1;
+                        highlightImage(index);
+                    }
+                    function determineContainerId(productId) {
+                        if (productId >= 1 && productId < 5) {
+                            return "products-container";
+                        } else if (productId >= 5 && productId < 9) {
+                            return "male-products-container";
+                        } else if (productId >= 9 && productId < 12) {
+                            return "kid-products-container";
+                        }
+
+                        // Default to products-container if the ID doesn't fall into any specified range
+                        return "products-container";
+                    }
+                    const containerId = determineContainerId(product.id);
+
+                    // Show only the related container and hide others
+                    showContainer(containerId);
+                })
+                .catch(error => console.error('Error fetching product data:', error));
+
+            const cartButton = document.getElementById("cart");
+            const shoppingBagIcon = cartButton.querySelector('i');
+            // Function to determine the appropriate container ID based on the product ID range
+
+
+
+            // Function to show only the specified container and hide others
+            function showContainer(containerId) {
+                const containers = ["products-container", "male-products-container", "kid-products-container"];
+
+                containers.forEach(id => {
+                    const container = document.getElementById(id);
+                    if (container) {
+                        container.style.display = id === containerId ? "" : "none";
+                    }
+                });
+            }
+            function checkForSizeIdInCart() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const selectedSizeId = localStorage.getItem(`selectedSizeId-${productId}`); // Include productId in the key
+
+                // Iterate through the items in the cart
+                for (const item of cart) {
+                    // Assuming there's an element with an ID equal to the size ID
+                    const sizeBox = document.getElementById(item.sizeId);
+
+                    // If the size box is found and matches the selected size, add 'box-selected' class and turn it red
+                    if (sizeBox && item.sizeId === selectedSizeId) {
+                        sizeBox.classList.add('box-selected');
+                        sizeBox.style.backgroundColor = 'red'; // Set the background color to red
+                    }
+                }
+            }
+            // Call the function to start checking
+            checkForSizeIdInCart();
+
+            // Update cart button state on page load
+            updateCartButton();
+
+            cartButton.addEventListener("click", function () {
+                const selectedSizeBox = document.querySelector('.box-selected');
+                const selectedCircle = document.querySelector('.circle.selected');
+
+                if (selectedSizeBox && selectedCircle) {
+                    const sizeId = selectedSizeBox.id;
+                    const circleId = selectedCircle.id;
+                    toggleCart(productId, sizeId, circleId);
+                } else {
+                    alert('Please select a size and a circle before adding to cart.');
+                }
+            });
+
+            function toggleCart(productId, sizeId, circleId) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const index = cart.findIndex(item => item.productId === productId && item.sizeId === sizeId && item.circleId === circleId);
+
+                if (index === -1) {
+                    cart.push({ productId, sizeId, circleId });
+                    console.log('Product added to cart:', productId, 'Size ID:', sizeId, 'Circle ID:', circleId);
+                    alert('Product added to cart!');
+                } else {
+                    const removeConfirmation = confirm('Do you want to remove this item from the cart?');
+                    if (removeConfirmation) {
+                        cart.splice(index, 1);
+                        console.log('Product removed from cart:', productId, 'Size ID:', sizeId, 'Circle ID:', circleId);
+                        alert('Product removed from cart!');
+                    }
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem('selectedSizeId', sizeId); // Save the selected size ID in localStorage
+                localStorage.setItem('selectedCircleId', circleId); // Save the selected circle ID in localStorage
+                updateCartButton();
+            }
+
+            function updateCartButton() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const inCart = cart.some(item => item.productId === productId);
+                if (inCart) {
+                    cartButton.classList.add('in-cart');
+                    shoppingBagIcon.style.color = 'green';
+                } else {
+                    cartButton.classList.remove('in-cart');
+                    shoppingBagIcon.style.color = '';
+                }
+            }
+
+
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var sizeBoxes = document.querySelectorAll('.size-box');
+
+            // Get the product ID from the URL query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            // Check if a selectedSizeId is already present in localStorage for the specific product ID
+            let selectedSizeId = localStorage.getItem(`selectedSizeId-${productId}`);
+
+            sizeBoxes.forEach(function (box) {
+                box.addEventListener('click', function () {
+                    // Remove 'box-selected' class from all size boxes
+                    sizeBoxes.forEach(function (sizeBox) {
+                        sizeBox.classList.remove('box-selected');
+                        sizeBox.style.backgroundColor = ''; // Remove background color
+                    });
+
+                    // Add 'box-selected' class to the clicked size box and turn it red
+                    box.classList.add('box-selected');
+                    box.style.backgroundColor = 'rgba(0, 0, 0, 0.75)'; // Set the background color to red
+
+                    // Store the selected size ID in localStorage with the specific product ID
+                    const sizeId = box.id;
+                    localStorage.setItem(`selectedSizeId-${productId}`, sizeId);
+                });
+            });
+
+            // If a selectedSizeId is present, highlight the corresponding size box
+            if (selectedSizeId) {
+                const selectedSizeBox = document.getElementById(selectedSizeId);
+                if (selectedSizeBox) {
+                    selectedSizeBox.classList.add('box-selected');
+                    selectedSizeBox.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+                }
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var circles = document.querySelectorAll('.circle');
+
+            // Get the product ID from the URL query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            // Check if a selected circle ID is present in localStorage for the specific product ID
+            let selectedCircleId = localStorage.getItem(`selectedCircleId-${productId}`);
+
+            // If no selected circle ID is present, randomly select one
+            if (!selectedCircleId) {
+                const randomIndex = Math.floor(Math.random() * circles.length);
+                selectedCircleId = circles[randomIndex].id;
+                localStorage.setItem(`selectedCircleId-${productId}`, selectedCircleId);
+            }
+
+            // Add 'selected' class to the corresponding circle
+            const selectedCircle = document.getElementById(selectedCircleId);
+            if (selectedCircle) {
+                selectedCircle.classList.add('selected');
+            }
+
+            // Add click event listeners to circles
+            circles.forEach(function (circle) {
+                circle.addEventListener('click', function () {
+                    // Remove 'selected' class from all circles
+                    circles.forEach(function (c) {
+                        c.classList.remove('selected');
+                    });
+
+                    // Add 'selected' class to the clicked circle
+                    circle.classList.add('selected');
+
+                    // Store the selected circle ID in localStorage with the specific product ID
+                    const circleId = circle.id;
+                    localStorage.setItem(`selectedCircleId-${productId}`, circleId);
+                });
+            });
+        });
+
+        function toggleHeart(productId) {
+            const wishButton = document.getElementById("wish");
+            const heartIcon = wishButton.querySelector('i');
+
+            // Check if the button is already clicked
+            const isClicked = wishButton.classList.contains('clicked');
+
+            wishButton.classList.toggle('clicked');
+
+            // Save the wishlist state to localStorage
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (!isClicked) {
+                wishlist.push(productId);
+            } else {
+                const index = wishlist.indexOf(productId);
+                if (index !== -1) {
+                    wishlist.splice(index, 1);
+                }
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+            // Update wishlist state on other pages
+            updateWishlistState(productId, !isClicked);
+
+            if (heartIcon.classList.contains('ri-heart-3-line')) {
+                heartIcon.className = 'ri-heart-fill';
+                // Assuming you want to change the heart color to red
+                heartIcon.style.color = 'red';
+
+                console.log('ProductId sent to wishlist.html:', productId);
+
+                // Fetch product data from product.json
+                fetch('product.json')
+                    .then(response => response.json())
+                    .then(products => {
+                        // Find the selected product by id
+                        const selectedProduct = products.find(product => product.id === productId);
+
+                        if (selectedProduct) {
+                            // Save the selected product to localStorage
+                            localStorage.setItem(`wishlist-${productId}`, JSON.stringify(selectedProduct));
+
+                            // Display a message indicating that details were sent
+                            alert('Product details sent to wishlist.html');
+
+                            // Log a message to the console indicating that details were sent
+                            console.log('Product details sent to wishlist.html:', selectedProduct);
+                        } else {
+                            // Display a message indicating that details were not found
+                            alert('Product details not found.');
+
+                            // Log a message to the console indicating that details were not found
+                            console.error('Error: Product details not found for id', productId);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching product data:', error));
+            } else if (isClicked) {
+                // If the button was already clicked and clicked again, ask for confirmation
+                const removeConfirmation = confirm('Do you want to remove this item from wishlist?');
+
+                // Reset the scale after a short delay (300ms)
+                setTimeout(() => {
+                    wishButton.classList.remove('clicked');
+                }, 300);
+
+                if (removeConfirmation) {
+                    // Remove the item from localStorage
+                    localStorage.removeItem(`wishlist-${productId}`);
+                    localStorage.removeItem(`wishlist-${productId}`);
+
+                    // Reset the heart icon to line and set the color to white
+                    heartIcon.className = 'ri-heart-3-line';
+                    // Assuming you want to change the heart color to its default color
+                    heartIcon.style.color = 'initial';
+
+                    // Display a message indicating that the item was removed
+                    alert('Product removed from wishlist.');
+
+                    // Log a message to the console indicating that the item was removed
+                    console.log('Product removed from wishlist:', productId);
+                }
+            }
+        }
+
+        function updateWishlistState(productId, isClicked) {
+            // Update wishlist state on other pages
+            const wishlistButtons = document.querySelectorAll(`.wishlist-button[data-product-id="${productId}"]`);
+
+            wishlistButtons.forEach(button => {
+                if (isClicked) {
+                    button.classList.add('clicked');
+                    button.querySelector('i').className = 'ri-heart-fill';
+                    button.querySelector('i').style.color = 'red';
+                } else {
+                    button.classList.remove('clicked');
+                    button.querySelector('i').className = 'ri-heart-3-line';
+                    // Assuming you want to change the heart color to its default color
+                    button.querySelector('i').style.color = 'initial';
+                }
+            });
+        }
+
+        function highlightImage(index) {
+            var slider = document.getElementById('slider');
+            var images = slider.getElementsByTagName('img');
+            var highlightedImageContainer = document.querySelector('.slider-container');
+
+            for (var i = 0; i < images.length; i++) {
+                images[i].classList.remove('active');
+            }
+
+            images[index].classList.add('active');
+
+            // Display the highlighted image in the separate container
+            highlightedImageContainer.innerHTML = '<img src="' + images[index].src + '" alt="Highlighted Image">';
+        }
+
+
+        function scrollSlider(amount) {
+            var slider = document.getElementById('slider');
+            slider.scrollTop += amount;
+        }
+
+        function updateWishlistCount() {
+            // Fetch wishlist items from localStorage
+            const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            // Update the wishlist count in the header
+            const wishlistCountSpan = document.getElementById('wishlist-count');
+            if (wishlistCountSpan) {
+                wishlistCountSpan.textContent = storedProducts.length;
+            }
+        }
+
+        // Initial update
+        updateWishlistCount();
+
+        // Periodically update every 2 seconds
+        setInterval(updateWishlistCount, 1000);
+        function updateHeaderWithCartCount() {
+            // Retrieve cart data from local storage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Calculate the total quantity of items in the cart
+            const totalQuantity = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+            // Display the total quantity in the header
+            const headerCartCountSpan = document.getElementById('cartitems');
+            if (headerCartCountSpan) {
+                headerCartCountSpan.textContent = totalQuantity.toString();
+            }
+        }
+
+        // Call the function initially when the DOM is loaded
+        updateHeaderWithCartCount();
+
+        // Set an interval to update the total quantity every second
+        setInterval(updateHeaderWithCartCount, 1000);
+        let previousScrollPosition = window.pageYOffset;
+
+        window.onscroll = function () {
+            const currentScrollPosition = window.pageYOffset;
+
+            if (previousScrollPosition > currentScrollPosition) {
+                // Scrolling up, reveal the header
+                document.querySelector('.header').style.top = '0';
+            } else {
+                // Scrolling down, hide the header
+                document.querySelector('.header').style.top = '-50px'; // Adjust the height of the header
+            }
+
+            previousScrollPosition = currentScrollPosition;
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <script src="firebase-auth.js" defer type="module"></script>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    #dashboardContainer {
+      margin-left: 400px;
+      margin-top: 200px;
+    }
+
+    .profile-details {
+      margin-top: -190px;
+    }
+
+    .profile-card {
+      width: 500px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profileimg-container {
+      width: 200px;
+      height: 200px;
+      border-radius: 10%;
+      overflow: hidden;
+    }
+
+    .profileimg-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Maintain aspect ratio and cover the entire container */
+    }
+
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-form label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .profile-form label[for='Email'] {
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-left: 20px;
+    }
+
+    .profile-form label[for='profileName'] {
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-left: 50px;
+    }
+
+    .profile-form label[for='profileAddress'] {
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-left: 35px;
+    }
+
+    .profile-form label[for='profilePhone'] {
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-left: 85px;
+    }
+
+    .profile-form label[for='profilePhone'] {
+      margin-bottom: 10px;
+      font-weight: bold;
+      margin-left: 85px;
+    }
+
+
+    .profile-form input {
+      padding: 10px;
+      margin-bottom: 15px;
+      margin-right: -240px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .profile-form button {
+      background-color: #7c857c;
+      color: #fff;
+      height: 35px;
+      width: 200px;
+      border: none;
+      border-radius: 4px;
+      cursor: url('assets/icons8-cursor-24.png '), auto;
+      margin-left: -250px;
+      margin-top: -100px;
+    }
+
+    .profile-form button:hover {
+      transform: none;
+      transition: none;
+      translate: none;
+    }
+
+    .logout-btn button {
+      background-color: #7c857c;
+      color: #fff;
+      height: 35px;
+      width: 200px;
+      border: none;
+      border-radius: 4px;
+      cursor: url('assets/icons8-cursor-24.png '), auto;
+      margin-top: -50px;
+    }
+
+    .logout-btn button:hover {
+      transform: none;
+      transition: none;
+      translate: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="left-elements">
+      <a href="index.html">
+        <h1>LOGO</h1>
+      </a>
+    </div>
+    <div class="center-elements">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="http://">SHOP</a></li>
+        <li><a href="http://">BLOG</a></li>
+        <li><a href="http://">ABOUT US</a></li>
+      </ul>
+    </div>
+    <div class="right-elements">
+      <div class="elements">
+        <div class="search" onclick="toggleSearch()">
+          <i class="ri-search-line" id="searchIcon"></i>
+          <input type="text" placeholder="Search..." id="searchInput" onkeydown="handleSearch()">
+        </div>
+        <div class="heart"><a href="wishlist.html"><i class="ri-heart-line"></i></a>
+          <span class="float1" id="wishlist-count">4</span>
+        </div>
+        <div class="bag"><a href="cart.html"><i class="ri-shopping-cart-line"></i></a>
+          <span class="float2" id="cartitems">4</span>
+        </div>
+        <div class="acc" id="signin-btn"><i class="ri-account-circle-line"></i></div>
+      </div>
+    </div>
+  </div>
+  <div id="signin-form">
+    <h7>Welcome!</h7>
+    <div id="close-btn" onclick="closeForm()">✕</div>
+    <form class="form-container" action="#" method="post">
+      <input type="text" id="username" name="username" placeholder="Enter your username" required><br>
+
+      <input type="password" id="password" name="password" placeholder="Enter your password" required><br>
+
+      <div class="form-button">
+        <button class="signin-btn" type="submit">Sign In</button>
+        <button class="google-btn" id="googlesignin-btn"><i class="ri-google-fill"></i></button>
+      </div>
+
+    </form>
+
+    <p5>Don't have an account? <span id="signup-btn" onclick="openSignup()" onclick="closeForm()">Sign Up</span></p5>
+    <div class="login-container">
+      <img src="assets/signin.jpg" alt="Login Image">
+    </div>
+  </div>
+
+
+  <div class="dashboard-container" id="dashboardContainer">
+    <div class="profile-card">
+      <div class="profileimg-container">
+        <img src="assets/ig_05.jpg" alt="Profile Image" class="profile-image">
+      </div>
+      <div class="profile-details">
+        <form class="profile-form" action="#" method="post">
+
+          <label for="Email">E-mail:</label>
+          <input type="text" id="email" name="profileName" placeholder="Your Name">
+
+
+          <label for="profileName">UserName:</label>
+          <input type="text" id="profileName" name="profileName" placeholder="Your Name">
+
+          <label for="profileAddress">Address:</label>
+          <input type="text" id="profileAddress" name="profileAddress" placeholder="Your Address">
+
+          <label for="profilePhone">Phone Number:</label>
+          <input type="text" id="profilePhone" name="profilePhone" placeholder="Your Phone Number">
+
+          <div class="profile-btns">
+            <button id="saveData" type="submit">Save Changes</button>
+          </div>
+        </form>
+        <div class="logout-btn" id="logout">
+          <button id="logoutButton">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="signup-container" style="display: none;">
+    <div class="signupimg">
+      <img src="assets/signup.jpg" alt="Login Image">
+    </div>
+    <div class="signup-details">
+      <h8>REGISTRATION FORM</h8>
+      <div class="personal-details">
+        <input type="text" id="firstName" name="firstName" placeholder="first name" required>
+
+        <input type="text" id="lastName" name="lastName" placeholder="last name" required>
+      </div>
+      <input type="text" id="username" name="username" placeholder="Choose a username" required>
+
+      <input type="text" id="address" name="address" placeholder="Enter your address" required>
+
+      <input type="password" id="password" name="password" placeholder="Choose a password" required>
+
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+
+      <div class="signup-buttons">
+        <button class="back-btn" onclick="closeSignupForm()"><i class="ri-arrow-left-line"></i>Home</button>
+        <button class="register-btn" id="registered-btn">Register<i id="home-arrow"
+            class="ri-arrow-right-line"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-container chat-hidden" id="chat-container">
+    <div class="chat-header" onclick="toggleChat()">
+      <button class="chatclose"><i class="ri-close-line"></i></button>
+      <h6>Chatbot</h6>
+    </div>
+    <div class="chat-box" id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button class="chat-button" onclick="sendMessage()">Send</button>
+  </div>
+
+  <button class="chatbot" onclick="toggleChat()"><i class="ri-message-3-line"></i></button>
+
+
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzi_cGSS1mjB0EnawXZReWFhEn2XSAwuE",
+      authDomain: "ecom-995af.firebaseapp.com",
+      databaseURL: "https://ecom-995af-default-rtdb.firebaseio.com",
+      projectId: "ecom-995af",
+      storageBucket: "ecom-995af.appspot.com",
+      messagingSenderId: "39930942495",
+      appId: "1:39930942495:web:bc7219446d9a4fea08f12a"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const database = getDatabase(app);
+    // Define a function to set up event listeners
+
+    // Your Firebase and event listener setup here...
+    // Your Firebase configuration and setupEventListeners function
+
+    // Define a function to set up event listeners
+    function setupEventListeners() {
+      const saveData = document.getElementById('saveData');
+
+      if (saveData) {
+        saveData.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const user = auth.currentUser;
+
+          if (user) {
+            var email = document.getElementById('email').value || localStorage.getItem('emailPlaceholder');
+            var userid = document.getElementById('profileName').value || localStorage.getItem('profileNamePlaceholder');
+            var phoneNo = document.getElementById('profilePhone').value || localStorage.getItem('profilePhonePlaceholder');
+            var address = document.getElementById('profileAddress').value || localStorage.getItem('profileAddressPlaceholder');
+
+            if (phoneNo.length !== 9) {
+              alert("Phone number must be exactly 9 digits long.");
+              return; // Exit the function without saving if phone number length is not valid
+            }
+
+            set(ref(database, 'users/' + user.uid), {
+              email: email,
+              phoneNumber: phoneNo,
+              username: userid,
+              address: address
+            })
+              .then(() => {
+                alert("Profile updated successfully");
+              })
+              .catch((error) => {
+                alert("Error updating profile: " + error.message);
+              });
+          } else {
+            alert("User is not signed in.");
+          }
+        });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setupEventListeners();
+
+      // Restore placeholder values after page reload
+      const emailInput = document.getElementById('email');
+      const profileNameInput = document.getElementById('profileName');
+      const profilePhoneInput = document.getElementById('profilePhone');
+      const profileAddressInput = document.getElementById('profileAddress');
+
+      emailInput.placeholder = localStorage.getItem('emailPlaceholder') || "Enter your email";
+      profileNameInput.placeholder = localStorage.getItem('profileNamePlaceholder') || "Enter your username";
+      profilePhoneInput.placeholder = localStorage.getItem('profilePhonePlaceholder') || "Enter your phone number";
+      profileAddressInput.placeholder = localStorage.getItem('profileAddressPlaceholder') || "Enter your address";
+
+      emailInput.addEventListener('change', () => {
+        localStorage.setItem('emailPlaceholder', emailInput.value);
+      });
+
+      profileNameInput.addEventListener('change', () => {
+        localStorage.setItem('profileNamePlaceholder', profileNameInput.value);
+      });
+
+      profilePhoneInput.addEventListener('change', () => {
+        localStorage.setItem('profilePhonePlaceholder', profilePhoneInput.value);
+      });
+
+      profileAddressInput.addEventListener('change', () => {
+        localStorage.setItem('profileAddressPlaceholder', profileAddressInput.value);
+      });
+    });
+  </script>
+
+  <script>
+
+
+
+    // dashboard.js
+    const userEmail = localStorage.getItem('userEmail');
+
+    // Display the email on the page
+    document.getElementById('userEmail').textContent = 'Logged in as: ' + userEmail;
+
+    // Add event listener to logout button
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      // Redirect to index.html
+      window.location.href = 'index.html';
+      // Clear the userEmail from localStorage on logout
+      localStorage.removeItem('userEmail');
+    });
+
+    // Ensure the dashboard container is initially hidden
+    document.getElementById('dashboardContainer').style.display = 'none';
+
+    // Call the toggleSignInContainer function when the DOM content is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      toggleSignInContainer();
+    });
+
+
+    document.getElementById('signin-btn').addEventListener('click', openForm);
+
+    function openForm() {
+      var signinForm = document.getElementById('signin-form');
+      signinForm.style.display = 'block';
+
+      // Set initial position above the viewport
+      signinForm.style.top = '-100%';
+
+      // Animate the sliding down effect
+      var currentPosition = -100;
+      var slideDownInterval = setInterval(function () {
+        currentPosition += 5;
+        signinForm.style.top = currentPosition + '%';
+
+        // Stop the interval when the form reaches the desired position
+        if (currentPosition >= 50) {
+          clearInterval(slideDownInterval);
+        }
+      }, 15);
+
+      // Store the form visibility state in localStorage
+      localStorage.setItem('formVisible', 'true');
+    }
+
+    function closeForm() {
+      var signinForm = document.getElementById('signin-form');
+
+      // Add a transition duration for a smooth sliding effect
+      signinForm.style.transition = 'top 0.8s ease-in-out';
+
+      // Animate the sliding up effect
+      var currentPosition = parseFloat(signinForm.style.top); // Get the current position as a floating-point number
+      var slideUpInterval = setInterval(function () {
+        currentPosition -= 5;
+        signinForm.style.top = currentPosition + '%';
+
+        // Stop the interval when the form reaches above the viewport
+        if (currentPosition <= -100) {
+          clearInterval(slideUpInterval);
+          signinForm.style.display = 'none';
+          signinForm.style.transition = ''; // Remove the transition property after the animation
+        }
+      }, 10);
+
+      // Remove the form visibility state from localStorage
+      localStorage.removeItem('formVisible');
+    }
+    document.getElementById('signup-btn').addEventListener('click', function () {
+      openSignup();
+      closeForm();
+    });
+    document.getElementById('registered-btn').addEventListener('click', function () {
+      openForm();
+      closeSignupForm();
+    });
+    function openSignup() {
+
+      var signinForm = document.getElementById('signup-container');
+      signinForm.style.display = 'block';
+
+      // Set initial position above the viewport
+      signinForm.style.top = '-100%';
+
+      // Animate the sliding down effect
+      var currentPosition = -100;
+      var slideDownInterval = setInterval(function () {
+        currentPosition += 5;
+        signinForm.style.top = currentPosition + '%';
+
+        // Stop the interval when the form reaches the desired position
+        if (currentPosition >= 50) {
+          clearInterval(slideDownInterval);
+        }
+      }, 15);
+
+      // Store the form visibility state in localStorage
+      localStorage.setItem('formVisible', 'true');
+    }
+
+    function closeSignupForm() {
+      var signinForm = document.getElementById('signup-container');
+
+      // Set initial position at the current scroll position
+      signinForm.style.top = window.scrollY + 'px';
+
+      // Add a transition duration for a smooth sliding effect
+      signinForm.style.transition = 'top 0.8s ease-in-out';
+
+      // Animate the sliding up effect
+      var currentPosition = window.scrollY;
+      currentPosition -= signinForm.clientHeight;
+
+      signinForm.style.top = currentPosition + 'px';
+
+      // Listen for the transitionend event to remove the form visibility state
+      signinForm.addEventListener('transitionend', function () {
+        signinForm.style.display = 'none';
+        signinForm.style.transition = ''; // Remove the transition property after the animation
+      }, { once: true });
+
+      // Remove the form visibility state from localStorage
+      localStorage.removeItem('formVisible');
+    }
+
+    // Check localStorage on page load
+
+    function toggleChat() {
+      var chatContainer = document.getElementById('chat-container');
+      var chatBotButton = document.querySelector('.chatbot');
+
+      // If the chat container is currently visible, hide it and show the chatbot button
+      if (chatContainer.classList.contains('visible')) {
+        chatContainer.classList.remove('visible');
+        chatBotButton.style.visibility = 'visible';
+      } else { // If the chat container is currently hidden, show it and hide the chatbot button
+        chatContainer.classList.add('visible');
+        chatBotButton.style.visibility = 'hidden';
+      }
+    }
+    function sendMessage() {
+      var userInput = document.getElementById('user-input').value;
+      document.getElementById('user-input').value = '';
+
+      var chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML += '<p class="message sent-message">You: ' + userInput + '</p>';
+
+      // Check if the user input mentions "products count"
+      if (userInput.toLowerCase().includes('products')) {
+        // Fetch the product data from product.json
+        fetch('product.json')
+          .then(response => response.json())
+          .then(products => {
+            // Get the unique IDs
+            var uniqueIds = new Set(products.map(product => product.id));
+
+            // Display the number of unique IDs in the chat box
+            var responseMessage = 'We have ' + uniqueIds.size + ' unique products.';
+            chatBox.innerHTML += '<p class="message received-message">Bot: ' + responseMessage + '</p>';
+            chatBox.scrollTop = chatBox.scrollHeight;
+          })
+          .catch(error => {
+            console.error('Error fetching product data:', error);
+            chatBox.innerHTML += '<p class="message received-message">Bot: Error fetching product data.</p>';
+            chatBox.scrollTop = chatBox.scrollHeight;
+          });
+      } else if (userInput.toLowerCase().includes('wishlist')) {
+        // Fetch wishlist items from localStorage
+        const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        // Display the wishlist count in the chat box
+        var responseMessage = 'You have ' + storedProducts.length + ' items in your wishlist.';
+        chatBox.innerHTML += '<p class="message received-message">Bot: ' + responseMessage + '</p>';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } else if (userInput.toLowerCase().includes('cart')) {
+        // Retrieve cart data from local storage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Calculate the total quantity of items in the cart
+        const totalQuantity = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+        // Display the total quantity in the chat box
+        var responseMessage = 'You have ' + totalQuantity + ' items in your cart.';
+        chatBox.innerHTML += '<p class="message received-message">Bot: ' + responseMessage + '</p>';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } else {
+        // Default response if the user input does not match any specific condition
+        var botResponse = 'I am a chatbot. How may I help you?';
+        chatBox.innerHTML += '<p class="message received-message">Bot: ' + botResponse + '</p>';
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }
+  </script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

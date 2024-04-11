@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <script src="firebase-app.js" defer type="module"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .header {
+            background-color: rgba(78, 73, 73, 0.6);
+            color: white;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+        }
+
+
+        .left-elements h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .left-elements a {
+            color: #f2f2f2;
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .center-elements ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+
+        }
+
+        .center-elements li {
+            margin-right: 20px;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .center-elements a {
+            text-decoration: none;
+            color: white;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .right-elements .elements {
+            display: flex;
+            font-size: 21px;
+            margin-right: 10px;
+            gap: 7px;
+
+        }
+
+        .search {
+            position: relative;
+        }
+
+        .search i {
+            transition: opacity 0.3s ease-in-out;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .search input {
+            position: absolute;
+            top: 0;
+            left: -250px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 5px;
+            border-color: none;
+        }
+
+        .heart a {
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+        }
+
+        .heart i {
+            text-decoration: none;
+            color: white;
+            border: none;
+        }
+
+        .bag a {
+            text-decoration: none;
+            cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        }
+
+        .bag i {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .float1,
+        .float2 {
+            position: absolute;
+            font-size: 14px;
+            background-color: rgb(217, 195, 169);
+            color: black;
+            border-radius: 50%;
+            padding: 5px 6px 6px 5px;
+            width: 5px;
+            height: 5px;
+            line-height: 5px;
+            text-align: center;
+            top: 5px;
+        }
+
+        .float1 {
+            right: 58px;
+        }
+
+        .float2 {
+            right: 30px;
+        }
+
+        .wishlist-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .wishlist-item img {
+            margin-right: 10px;
+            max-width: 100px;
+            /* Adjust the max-width to your preference */
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #ff0000;
+            margin-left: auto;
+            /* Move the close button to the right */
+        }
+
+        .wish-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 30px;
+        }
+
+        .wish {
+            font-size: 50px;
+            margin-top: 60px;
+            margin-left: 30px;
+        }
+
+        .horizontal-line {
+            width: 95%;
+            height: 2px;
+            border-top: 1px solid #000;
+            margin-left: 30px;
+        }
+
+        .img-container {
+            width: 250px;
+            /* specify the width */
+            height: 330px;
+            /* specify the height */
+            overflow: hidden;
+            position: relative;
+            margin-top: 40px;
+            /* hide any overflowing content */
+            border-radius: 20px;
+            margin-left: 25px;
+        }
+
+        .img-container img {
+            width: 100%;
+            /* make the image fill the container */
+            height: 100%;
+            /* make the image fill the container */
+            object-fit: cover;
+            /* maintain aspect ratio and cover the entire container */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: -80px;
+            /* initially position buttons below the container */
+            left: 50%;
+            transform: translateX(-50%);
+            transition: bottom 0.3s ease;
+        }
+
+        .img-container:hover .button-container {
+            bottom: 50px;
+            /* move buttons up when hovering over the image container */
+        }
+
+        .button-container button {
+            width: 50px;
+            /* Specify the width */
+            height: 50px;
+            /* Specify the height */
+            border-radius: 50%;
+            /* Make it circular */
+            background-color: lightblue;
+            /* Set the background color */
+            border: none;
+            /* Remove border */
+            cursor: pointer;
+            margin: 0 20px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Optional: Style the icon inside the button */
+        .button-container button i {
+            font-size: 24px;
+            /* Adjust the icon size as needed */
+            /* Set the icon color */
+        }
+
+        .button-container button:hover {
+            transform: scale(1.08);
+        }
+
+        .button-container button#cross i {
+            color: #ff0000;
+            /* Set color for the 'cross' button icon */
+        }
+
+        .button-container button#details i {
+            color: rgb(26, 27, 27);
+            /* Set color for the 'details' button icon */
+        }
+
+        .info-strip {
+            width: 252px;
+            height: 45px;
+            background-color: bisque;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: bottom 0.3s ease;
+        }
+
+        .img-container:hover .info-strip {
+            bottom: -54px;
+        }
+
+        .content {
+            display: flex;
+            margin-top: 10px;
+            justify-content: flex-start;
+            margin-left: 15px;
+            font-size: 18px;
+            gap: 22px;
+        }
+
+        #wishlist-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            /* Adjust the gap between containers */
+        }
+
+        h2 {
+            position: absolute;
+            color: black;
+            text-align: center;
+            font-size: 25px;
+            margin-left: 30px;
+            bottom: 520px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="left-elements">
+            <a href="index.html">
+                <h1>LOGO</h1>
+            </a>
+        </div>
+        <div class="center-elements">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="http://">SHOP</a></li>
+                <li><a href="http://">BLOG</a></li>
+                <li><a href="http://">ABOUT US</a></li>
+            </ul>
+        </div>
+        <div class="right-elements">
+            <div class="elements">
+                <div class="search" onclick="toggleSearch()">
+                    <i class="ri-search-line" id="searchIcon"></i>
+                    <input type="text" placeholder="Search..." id="searchInput" onkeydown="handleSearch()">
+                </div>
+                <div class="heart"><a href="wishlist.html"><i class="ri-heart-line"></i></a>
+                    <span class="float1" id="wishlist-count">4</span>
+                </div>
+                <div class="bag"><a href="cart.html"><i class="ri-shopping-cart-line"></i></a>
+                    <span class="float2" id="cartitems">4</span>
+                </div>
+                <div class="acc" id="signin-btn"><i class="ri-account-circle-line"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="wish">Wishlist</div>
+    <h1 id="wishlist-heading"></h1>
+    <div class="horizontal-line"></div>
+    <div id="wishlist-container"></div>
+    <div id="receivedDetailsContainer">
+    </div>
+    <div id="signin-form">
+        <h7>Welcome!</h7>
+        <div id="close-btn" onclick="closeForm()">✕</div>
+        <form class="form-container" action="#" method="post">
+            <input type="email" id="username" name="username" placeholder="Enter your username" required><br>
+
+            <input type="password" id="psw" name="password" placeholder="Enter your password" required><br>
+
+            <div class="form-button">
+                <button class="signin-btn" id="signedin" type="submit">Sign In</button>
+                <button class="google-btn" id="googlesignin-btn"><i class="ri-google-fill"></i></button>
+            </div>
+
+        </form>
+
+        <p5>Don't have an account? <span id="signup-btn" onclick="openSignup()" onclick="closeForm()">Sign Up</span>
+        </p5>
+        <div class="login-container">
+            <img src="assets/signin.jpg" alt="Login Image">
+        </div>
+    </div>
+
+    <div id="signup-container" style="display: none;">
+        <div class="signupimg">
+            <img src="assets/signup.jpg" alt="Login Image">
+        </div>
+        <div class="signup-details">
+            <h8>REGISTRATION FORM</h8>
+            <form id="signupform" class="spc">
+
+                <input type="text" id="email" placeholder="E-mail" required>
+
+                <input type="password" id="password" placeholder="Confirm your password" required>
+
+                <div class="signup-buttons">
+                    <button class="back-btn" onclick="closeSignupForm()"><i class="ri-arrow-left-line"></i>Home</button>
+                    <button class="register-btn" type="submit" id="saveData">Register<i
+                            class="ri-arrow-right-line"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="dashboard-container" id="dashboardContainer">
+        <div class="profile-card">
+            <div class="profileimg-container">
+                <img src="assets/ig_05.jpg" alt="Profile Image" class="profile-image">
+            </div>
+            <div class="profile-details">
+                <form class="profile-form" action="#" method="post">
+                    <label for="profileName">Name:</label>
+                    <input type="text" id="profileName" name="profileName" placeholder="Your Name">
+
+                    <label for="profileAddress">Address:</label>
+                    <input type="text" id="profileAddress" name="profileAddress" placeholder="Your Address">
+
+                    <label for="profileAge">Age:</label>
+                    <input type="text" id="profileAge" name="profileAge" placeholder="Your Age">
+
+                    <label for="profileGender">Gender:</label>
+                    <input type="text" id="profileGender" name="profileGender" placeholder="Your Gender">
+
+                    <label for="profilePhone">Phone Number:</label>
+                    <input type="text" id="profilePhone" name="profilePhone" placeholder="Your Phone Number">
+
+                    <div class="profile-btns">
+                        <button id="save-profile" type="button" onclick="showProfileDetails()">Save Changes</button>
+                    </div>
+                </form>
+                <div class="logout-btn" id="logout">
+                    <button id="logoutButton">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const wishlistContainer = document.getElementById("wishlist-container");
+
+            // Fetch wishlist items from localStorage
+            const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            // Render wishlist items
+            if (storedProducts.length > 0) {
+                // If there are items in the wishlist
+                const wishlistCountHeading = document.createElement("h2");
+                wishlistCountHeading.textContent = `You have ${storedProducts.length} item${storedProducts.length > 1 ? 's' : ''} in your wishlist`;
+                wishlistContainer.appendChild(wishlistCountHeading);
+
+                storedProducts.forEach(productId => {
+                    // Check if the product container is already present
+                    if (!document.querySelector(`.wish-container[data-product-id="${productId}"]`)) {
+                        // Fetch product details from localStorage
+                        const productDetails = JSON.parse(localStorage.getItem(`wishlist-${productId}`));
+                        console.log('Details in wishlist.html:', productDetails);
+
+                        if (productDetails) {
+                            console.log('Details in wishlist.html:', productDetails);
+
+                            const wishDiv = document.createElement("div");
+                            wishDiv.className = "wish-container";
+                            wishDiv.setAttribute("data-product-id", productId);
+
+                            wishDiv.innerHTML = `
+                                <div class="img-container">
+                                    <img src="${productDetails.image}" id="image" alt="${productDetails.name}">
+                                    <div class="button-container">
+                                        <button id="cross" onclick="removeProduct(${productId})"><i class="ri-close-line"></i></button>
+                                        <button id="details" onclick="viewDetails(${productId})"><i class="ri-eye-line"></i></button>
+                                    </div>
+                                    <div class="info-strip">
+                                        <div class="content">
+                                            <div class="h" id="company">${productDetails.company}</div>
+                                            <div class="h" id="name">${productDetails.name}</div>
+                                            <div class="h" id="price">$${productDetails.price.toFixed(2)}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+                            wishlistContainer.appendChild(wishDiv);
+                        }
+                    }
+                });
+            } else {
+                // If the wishlist is empty
+                const emptyWishlistHeading = document.createElement("h2");
+                emptyWishlistHeading.textContent = "Your wishlist is empty!";
+                wishlistContainer.appendChild(emptyWishlistHeading);
+            }
+        });
+
+
+        function removeProduct(productId) {
+            // Remove the item from localStorage
+            localStorage.removeItem(`wishlist-${productId}`);
+
+            // Remove the product ID from the storedProducts array
+            const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const indexToRemove = storedProducts.indexOf(productId);
+            if (indexToRemove !== -1) {
+                storedProducts.splice(indexToRemove, 1);
+                localStorage.setItem('wishlist', JSON.stringify(storedProducts));
+            }
+
+            // Remove the item from the displayed list
+            const productElement = document.querySelector(`.wish-container[data-product-id="${productId}"]`);
+            if (productElement) {
+                productElement.remove();
+            }
+
+            // Update the heading if the wishlist becomes empty
+            const emptyWishlistHeading = document.querySelector("#wishlist-container h2");
+            if (emptyWishlistHeading && storedProducts.length === 0) {
+                emptyWishlistHeading.textContent = "Your wishlist is empty!";
+            }
+
+            // Update the heading if there are items in the wishlist
+            const wishlistCountHeading = document.querySelector("#wishlist-container h2");
+            if (wishlistCountHeading && storedProducts.length > 0) {
+                wishlistCountHeading.textContent = `You have ${storedProducts.length} item${storedProducts.length > 1 ? 's' : ''} in your wishlist`;
+            }
+        }
+
+        function viewDetails(productId) {
+            // Redirect to product-details.html with the corresponding product ID
+            window.location.href = `product-details.html?id=${productId}`;
+        }
+        const searchIcon = document.getElementById('searchIcon');
+        const searchInput = document.getElementById('searchInput');
+        let products;
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch('product.json');
+                products = await response.json();
+            } catch (error) {
+                console.error('Error fetching product data:', error);
+            }
+        };
+
+        fetchData();
+
+        function hideSearch() {
+            searchIcon.style.opacity = 0;
+            searchInput.style.opacity = 1;
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        function showSearch() {
+            searchIcon.style.opacity = 1;
+            searchInput.style.opacity = 0;
+            document.removeEventListener('click', handleOutsideClick); // Remove the event listener
+        }
+
+        function toggleSearch() {
+            hideSearch();
+        }
+
+        function handleOutsideClick(event) {
+            if (!event.target.closest('.search')) {
+                showSearch();
+            }
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const inputValue = searchInput.value.toLowerCase();
+                const matchingProducts = products.filter(product => (
+                    product.name.toLowerCase().includes(inputValue) || product.company.toLowerCase().includes(inputValue)
+                ));
+
+                if (matchingProducts.length > 0) {
+                    const product = matchingProducts[0]; // Assuming the first matching product
+                    const isConfirmed = confirm(`Product found!\n\nName: ${product.name}\nCompany: ${product.company}\n\nOptions:\n1. Okay\n2. Visit`);
+
+                    if (isConfirmed) {
+                        const productDetailsURL = `${window.location.origin}/product-details.html?id=${product.id}`;
+                        window.location.href = productDetailsURL;
+                    } else {
+                        alert('Product not available.');
+                    }
+                } else {
+                    alert('Product not available.');
+                }
+
+                // Reset the search input
+                searchInput.value = '';
+                showSearch();
+            }
+        }
+
+        // Attach the event listener to the input
+        searchInput.addEventListener('keyup', handleSearch);
+        function updateWishlistCount() {
+            // Fetch wishlist items from localStorage
+            const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            // Update the wishlist count in the header
+            const wishlistCountSpan = document.getElementById('wishlist-count');
+            if (wishlistCountSpan) {
+                wishlistCountSpan.textContent = storedProducts.length;
+            }
+        }
+
+        // Initial update
+        updateWishlistCount();
+
+        // Periodically update every 2 seconds
+        setInterval(updateWishlistCount, 1000);
+        function updateHeaderWithCartCount() {
+            // Retrieve cart data from local storage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Calculate the total quantity of items in the cart
+            const totalQuantity = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+            // Display the total quantity in the header
+            const headerCartCountSpan = document.getElementById('cartitems');
+            if (headerCartCountSpan) {
+                headerCartCountSpan.textContent = totalQuantity.toString();
+            }
+        }
+
+        // Call the function initially when the DOM is loaded
+        updateHeaderWithCartCount();
+
+        // Set an interval to update the total quantity every second
+        setInterval(updateHeaderWithCartCount, 1000);
+    </script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

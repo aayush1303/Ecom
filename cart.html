@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <script src="firebase-app.js" defer type="module"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+    }
+
+    .header {
+        background-color: rgba(72, 59, 59, 0.6);
+        color: white;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+
+    }
+
+    .left-elements h1 {
+        margin: 0;
+        font-size: 25px;
+    }
+
+    .center-elements ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+
+    }
+
+    .center-elements li {
+        margin-right: 20px;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+    }
+
+    .center-elements a {
+        text-decoration: none;
+        color: white;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+    }
+
+    .right-elements .elements {
+        display: flex;
+        font-size: 21px;
+        margin-right: 10px;
+        gap: 7px;
+
+    }
+
+    .heart a {
+        text-decoration: none;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+    }
+
+    .heart i {
+        text-decoration: none;
+        color: white;
+        border: none;
+    }
+
+    .float1,
+    .float2 {
+        position: absolute;
+        font-size: 14px;
+        background-color: bisque;
+        color: black;
+        border-radius: 50%;
+        padding: 5px 6px 6px 5px;
+        width: 5px;
+        height: 5px;
+        line-height: 5px;
+        text-align: center;
+        top: 5px;
+    }
+
+    .float1 {
+        right: 58px;
+    }
+
+    .float2 {
+        right: 30px;
+    }
+
+    .headings {
+        margin-top: 70px;
+        margin-left: 20px;
+        display: flex;
+
+    }
+
+    h2 {
+        font-size: 38px;
+    }
+
+    h1 {
+        margin-top: 35px;
+        margin-left: 1200px;
+        font-size: 35px;
+    }
+
+    .cart-container {
+        width: 900px;
+        height: 570px;
+        background-color: rgba(92, 91, 89, 0.5);
+        overflow-y: auto;
+        margin-left: 20px;
+        border-radius: 20px;
+    }
+
+    .item-container {
+        margin-left: 30px;
+        margin-top: 10px;
+        width: 800px;
+        height: 180px;
+        border: 1px solid;
+        border-radius: 20px;
+        display: flex;
+        background-color: rgb(197, 209, 209);
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    .image-container {
+
+        margin-top: 5px;
+        margin-left: 10px;
+        border-radius: 20px;
+        width: 150px;
+        /* Set your desired width */
+        height: 170px;
+        /* Set your desired height */
+        overflow: hidden;
+        /* Ensure the image doesn't overflow the container */
+    }
+
+    .image-container img {
+        width: 100%;
+        /* Make the image fill the container width */
+        height: 100%;
+        /* Make the image fill the container height */
+        object-fit: fill;
+        /* Maintain aspect ratio and cover the container */
+    }
+
+    .item-details {
+        flex-wrap: wrap;
+        margin-top: 40px;
+        margin-left: 20px;
+    }
+
+    .item-details div {
+        min-width: 200px;
+        font-size: 20px;
+    }
+
+    .item-details span {
+        max-width: 100%;
+        /* Ensure the span doesn't overflow */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        /* Add ellipsis if content overflows */
+    }
+
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 60px;
+        margin-right: -380px;
+        position: relative;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+
+    .button-container button {
+        margin-bottom: 5px;
+        font-size: 22px;
+        border-radius: 20px;
+        width: 150px;
+        border: none;
+        height: 38px;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+        /* Add spacing between buttons */
+    }
+
+    #quantity {
+        font-size: 22px;
+        border-radius: 20px;
+        width: 150px;
+        border: none;
+        background-color: aliceblue;
+        height: 38px;
+        text-align: center;
+        margin-bottom: 4px;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+
+    .remove-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 20px;
+        margin-left: 380px;
+        margin-top: 9px;
+        border: none;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    #go-back {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 20px;
+        margin-left: -70px;
+        position: relative;
+        top: 8px;
+        border: none;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .checkout-container {
+        border: 1px solid;
+        border-radius: 20px;
+        width: 350px;
+        height: 390px;
+        background-color: rgb(197, 209, 209);
+        margin-left: 1050px;
+        margin-top: -560px;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .checkout-details {
+        margin-top: 10px;
+        margin-left: 30px;
+    }
+
+    .heading {
+        font-size: 30px;
+    }
+
+    .code {
+        margin-top: 10px;
+        font-size: 19px;
+    }
+
+    .p-details {
+        font-size: 20px;
+        margin-top: 10px;
+
+    }
+
+    .p-details div {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        /* Add space between different div elements */
+    }
+
+    .items span {
+        margin-left: 10px;
+    }
+
+    .tax span {
+        margin-left: 10px;
+    }
+
+    .sub span {
+        margin-left: 20px;
+    }
+
+    .c-button button {
+        width: 270px;
+        height: 50px;
+        font-size: 18px;
+        border-radius: 20px;
+        margin-top: 10px;
+        background-color: rgb(226, 225, 225);
+        color: black;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .total {
+        margin-top: 10px;
+        font-size: 25px;
+        margin-bottom: 10px;
+    }
+
+    .line {
+        background-color: black;
+        width: 290px;
+        height: 2px;
+    }
+
+    #v-line {
+        background-color: black;
+        width: 290px;
+        height: 2px;
+    }
+
+    #h-line {
+        background-color: black;
+        width: 1400px;
+        margin-bottom: 10px;
+        margin-top: -20px;
+        margin-left: 20px;
+    }
+
+    .icon-container {
+        margin-left: 25px;
+        margin-top: 10px;
+    }
+
+    .icons {
+        display: flex;
+        font-size: 40px;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .icons div {
+        width: 50px;
+        /* Set your desired width */
+        height: 50px;
+        /* Set your desired height */
+        background-color: white;
+        /* Set the background color */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        /* Make it circular */
+    }
+
+    .primary-buttons {
+        margin-top: -10px;
+        margin-left: 640px;
+        position: absolute;
+    }
+
+    .bag a {
+        text-decoration: none;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+    }
+
+    .bag i {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .search {
+        position: relative;
+    }
+
+    .search i {
+        transition: opacity 0.3s ease-in-out;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .search input {
+        position: absolute;
+        top: 0;
+        left: -150px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 5px;
+        border-color: none;
+    }
+
+    .left-elements a {
+        text-decoration: none;
+        color: aliceblue;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+</style>
+<style>
+    .container {
+        position: fixed;
+        right: 500px;
+        top: 300px;
+    }
+
+    #signin-form {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 900px;
+        height: 550px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        transition: transform 0.3s ease;
+    }
+
+    #close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .form-container {
+        display: block;
+        position: absolute;
+        font-size: 40px;
+        margin-left: 550px;
+        margin-top: 200px;
+    }
+
+    .form-container input {
+        border: none;
+        font-size: 20px;
+        border-bottom: 1px solid #333;
+        /* Add an underline */
+        padding: 5px;
+        width: 100%;
+        margin-bottom: 10px;
+        outline: none;
+        /* Remove the default focus outline */
+    }
+
+    .form-button .signin-btn,
+    .google-btn {
+        background-color: #828588;
+        /* Set your desired button color */
+        color: #fff;
+        /* Set the text color */
+        border: none;
+        border-radius: none;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+        transition: transform 0.3s ease;
+
+        margin-top: 20px;
+        flex: 1;
+        width: 100px;
+        font-size: 20px;
+        /* Make both buttons occupy equal width */
+        height: 40px;
+        /* Set a common height for both buttons */
+    }
+
+
+    .form-button {
+        display: flex;
+        gap: 20px;
+    }
+
+    .form-button .signin-btn:hover {
+        transform: scale(1.2);
+
+    }
+
+    .form-button .google-btn:hover {
+        transform: scale(1.2);
+
+    }
+
+    p5 {
+        margin-left: 540px;
+        font-size: 20px;
+        margin-top: 420px;
+        position: absolute;
+    }
+
+    h7 {
+        position: absolute;
+        margin-left: 600px;
+        margin-top: 100px;
+        font-size: 35px;
+    }
+
+    .login-container {
+        width: 450px;
+        height: 500px;
+        margin-top: 25px;
+        margin-left: 25px;
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .login-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0%;
+    }
+
+    #signup-container {
+        position: fixed;
+        top: 50%;
+        font-size: 30px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 900px;
+        height: 550px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .signup-details {
+        margin-left: 510px;
+        position: relative;
+        margin-top: -500px;
+    }
+
+    .signup-details label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .signup-details input {
+        border: none;
+        border-bottom: 1px solid #333;
+        /* Add an underline */
+        width: 82%;
+        font-size: 17px;
+        padding: 8px;
+        margin-bottom: 10px;
+        outline: none;
+        /* Remove the default focus outline */
+    }
+
+    .signup-details input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .personal-details {
+        display: flex;
+        gap: 25px;
+        width: 86%;
+        margin-top: 140px;
+    }
+
+    h8 {
+        position: absolute;
+        margin-top: 80px;
+        font-size: 30px;
+        margin-left: 10px;
+        margin-bottom: 50px;
+    }
+
+    .spc {
+        display: table-column;
+        position: absolute;
+        margin-top: 150px;
+    }
+
+    .signupimg {
+        width: 450px;
+        height: 500px;
+        margin-top: 25px;
+        margin-left: 25px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0%;
+
+    }
+
+    .signupimg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0%;
+
+    }
+
+    .signup-buttons .back-btn,
+    .register-btn {
+        width: 130px;
+        font-size: 18px;
+        /* Make both buttons occupy equal width */
+        height: 50px;
+        background-color: rgb(36, 36, 36);
+        position: relative;
+        /* Add position relative for absolute positioning */
+        overflow: hidden;
+        /* Hide overflowing content */
+        color: #f4f4f4;
+        border-radius: 0%;
+        cursor: url('assets/icons8-cursor-24.png '), auto;
+
+    }
+
+    .register-btn i {
+        margin-left: 7px;
+        /* Add space between icon and text */
+    }
+
+    .back-btn i {
+        margin-right: 7px;
+    }
+
+    .signup-buttons {
+        display: flex;
+        gap: 20px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <div class="header">
+        <div class="left-elements">
+            <a href="index.html">
+                <h1>LOGO</h1>
+            </a>
+        </div>
+        <div class="center-elements">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="http://">SHOP</a></li>
+                <li><a href="http://">BLOG</a></li>
+                <li><a href="http://">ABOUT US</a></li>
+            </ul>
+        </div>
+        <div class="right-elements">
+            <div class="elements">
+                <div class="search" onclick="toggleSearch()">
+                    <i class="ri-search-line" id="searchIcon"></i>
+                    <input type="text" placeholder="Search..." id="searchInput" onkeydown="handleSearch()">
+                </div>
+                <div class="heart"><a href="wishlist.html"><i class="ri-heart-line"></i></a>
+                    <span class="float1" id="wishlist-count">4</span>
+                </div>
+                <div class="bag"><a href="cart.html"><i class="ri-shopping-cart-line"></i></a>
+                    <span class="float2" id="cartitems">0</span>
+                </div>
+                <div class="acc" id="signin-btn"><i class="ri-account-circle-line"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="headings">
+        <h2>cart</h2>
+        <h1 id="cart-count"></h1>
+    </div>
+    <div class="line" id="h-line"></div>
+    <div class="cart-container">
+        <div id="cart-details"></div>
+    </div>
+
+    <div class="checkout-container">
+        <div class="checkout-details">
+            <div class="heading">Summary</div>
+            <div class="code">do you have promo code ?</div>
+            <div class="p-details">
+                <div class="items">Total Items : <span id="count">0</span></div>
+                <div class="sub">Your Subtotal : <span id="sub-total">4</span></div>
+                <div class="tax">GST : <span id="multiplied-cart-count">$0 </span></div>
+            </div>
+            <div class="line"></div>
+            <div class="total">Total : <span id="total-price-sum"> $0.00</span></div>
+            <div class="lines" id="v-line"></div>
+            <div class="icon-container">
+                <div class="icons">
+                    <div><i class="ri-mastercard-line"></i></div>
+                    <div><i class="ri-secure-payment-fill"></i></div>
+                    <div><i class="ri-refund-2-line"></i></div>
+                    <div><i class="ri-bit-coin-line"></i></div>
+                </div>
+            </div>
+            <div class="c-button">
+                <button id="checkout">Checkout</button>
+            </div>
+        </div>
+    </div>
+    <div id="signin-form">
+        <h7>Welcome!</h7>
+        <div id="close-btn" onclick="closeForm()">✕</div>
+        <form class="form-container" action="#" method="post">
+            <input type="email" id="username" name="username" placeholder="Enter your username" required><br>
+
+            <input type="password" id="psw" name="password" placeholder="Enter your password" required><br>
+
+            <div class="form-button">
+                <button class="signin-btn" id="signedin" type="submit">Sign In</button>
+                <button class="google-btn" id="googlesignin-btn"><i class="ri-google-fill"></i></button>
+            </div>
+
+        </form>
+
+        <p5>Don't have an account? <span id="signup-btn" onclick="openSignup()" onclick="closeForm()">Sign Up</span>
+        </p5>
+        <div class="login-container">
+            <img src="assets/signin.jpg" alt="Login Image">
+        </div>
+    </div>
+
+    <div id="signup-container" style="display: none;">
+        <div class="signupimg">
+            <img src="assets/signup.jpg" alt="Login Image">
+        </div>
+        <div class="signup-details">
+            <h8>REGISTRATION FORM</h8>
+            <form id="signupform" class="spc">
+
+                <input type="text" id="email" placeholder="E-mail" required>
+
+                <input type="password" id="password" placeholder="Confirm your password" required>
+
+                <div class="signup-buttons">
+                    <button class="back-btn" onclick="closeSignupForm()"><i class="ri-arrow-left-line"></i>Home</button>
+                    <button class="register-btn" type="submit" id="saveData">Register<i
+                            class="ri-arrow-right-line"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="dashboard-container" id="dashboardContainer">
+        <div class="profile-card">
+            <div class="profileimg-container">
+                <img src="assets/ig_05.jpg" alt="Profile Image" class="profile-image">
+            </div>
+            <div class="profile-details">
+                <form class="profile-form" action="#" method="post">
+                    <label for="profileName">Name:</label>
+                    <input type="text" id="profileName" name="profileName" placeholder="Your Name">
+
+                    <label for="profileAddress">Address:</label>
+                    <input type="text" id="profileAddress" name="profileAddress" placeholder="Your Address">
+
+                    <label for="profileAge">Age:</label>
+                    <input type="text" id="profileAge" name="profileAge" placeholder="Your Age">
+
+                    <label for="profileGender">Gender:</label>
+                    <input type="text" id="profileGender" name="profileGender" placeholder="Your Gender">
+
+                    <label for="profilePhone">Phone Number:</label>
+                    <input type="text" id="profilePhone" name="profilePhone" placeholder="Your Phone Number">
+
+                    <div class="profile-btns">
+                        <button id="save-profile" type="button" onclick="showProfileDetails()">Save Changes</button>
+                    </div>
+                </form>
+                <div class="logout-btn" id="logout">
+                    <button id="logoutButton">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+
+        import { loadStripe } from 'https://js.stripe.com/v3';
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzi_cGSS1mjB0EnawXZReWFhEn2XSAwuE",
+            authDomain: "ecom-995af.firebaseapp.com",
+            databaseURL: "https://ecom-995af-default-rtdb.firebaseio.com",
+            projectId: "ecom-995af",
+            storageBucket: "ecom-995af.appspot.com",
+            messagingSenderId: "39930942495",
+            appId: "1:39930942495:web:bc7219446d9a4fea08f12a"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const database = getDatabase(app);
+        // Define a function to set up event listeners
+        function setupEventListeners() {
+            const saveData = document.getElementById('saveData');
+            const signInButton = document.getElementById('signin-btn');
+
+
+            if (saveData) { // Check if element exists before adding event listener
+                saveData.addEventListener("click", (e) => {
+                    e.preventDefault(); // Prevent form submission
+
+                    var email = document.getElementById('email').value;
+                    var password = document.getElementById('password').value;
+                    var userid = document.getElementById('userName').value;
+                    var phoneNo = document.getElementById('phoneId').value;
+                    var address = document.getElementById('address').value;
+
+                    createUserWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // Signed up 
+                            const user = userCredential.user;
+
+                            set(ref(database, 'users/' + user.uid), {
+                                email: email,
+                                password: password,
+                                phoneNumber: phoneNo,
+                                username: userid,
+                                address: address
+                            })
+                                .then(() => {
+                                    alert("User created successfully");
+                                })
+                                .catch((error) => {
+                                    alert("Error: " + error.message);
+                                });
+                        })
+                        .catch((error) => {
+                            const errorMessage = error.message;
+                            alert("Error occurred during signup: " + errorMessage);
+                        });
+                });
+            }
+
+            const signInForm = document.getElementById('signin-form');
+            if (signInForm) { // Check if element exists before adding event listener
+                signInForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); // Prevent form submission
+
+                    const username = document.getElementById('username').value;
+                    const passWord = document.getElementById('psw').value;
+
+                    try {
+                        const userCredential = await signInWithEmailAndPassword(auth, username, passWord);
+                        // User signed in successfully
+                        const user = userCredential.user;
+
+                        // Update last login time in the database
+                        var lgData = new Date();
+                        update(ref(database, 'users/' + user.uid), {
+                            last_login: lgData,
+                        })
+                            .then(() => {
+
+                                alert("User logged in successfully");
+
+                                const userEmail = user.email;
+                                window.location.href = `dashboard.html?email=${userEmail}`;
+
+
+                            })
+                            .catch((error) => {
+                                alert("Error updating last login: " + error.message);
+                            });
+                    } catch (error) {
+                        // Handle errors
+                        const errorMessage = error.message;
+                        alert("Sign-in failed: " + errorMessage);
+                    }
+                });
+            }
+        }
+
+        // Call the function to set up event listeners after the DOM content has loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            setupEventListeners();
+        });
+
+    </script>
+    <script>
+        var stripe = Stripe(
+            "pk_test_51ODhuMSCIyCFFKLFWCSQn5Xl8AID5efDrKXWNoJCK9EM87neE3jnsjKH4xoPWIWRlhXKKnnPK073c2smMYMrLvHD00bF5qvUTT"
+        );
+        document.getElementById("checkout").addEventListener("click", function () {
+            stripe.redirectToCheckout({
+                lineItems: [
+                    {
+
+                    }
+                ]
+            })
+        })
+    </script>
+
+    <script>
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve cart data from local storage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Create a container for displaying product details
+            const cartDetailsContainer = document.getElementById('cart-details');
+
+            // Function to fetch and display product details
+            function displayProductDetails(cartItem) {
+                const productDetails = document.createElement('div');
+
+                // Fetch product details directly from product.json based on productId
+                fetch('product.json')
+                    .then(response => response.json())
+                    .then(products => {
+                        const productInfo = products.find(product => product.id === cartItem.productId);
+
+                        // Save the product price in local storage for later use
+                        localStorage.setItem(`productPrice-${cartItem.productId}`, productInfo.price);
+
+                        // Display product ID, name, company, size ID, circle ID, quantity, price, and buttons
+                        productDetails.innerHTML = `
+        <div class="item-container">
+        <div class="image-container">
+            <img src="${getColorImage(cartItem.circleId, productInfo)}" alt="Color Image">
+        </div>
+        <div class="item-details">
+                <div class="c-name" >Company :<span id="company">${productInfo.company}</span></div>
+                <div class="p-name" >Product :<span id="name">${productInfo.name}</span></div>
+                <div class="p-size" >Name : <span id="sizeId">${getSizeLetter(cartItem.sizeId)}</span></div>
+                <div class="p-color">Color: <span id="color">${getColorName(cartItem.circleId)}</span></div>
+                <div class="p-price" >Price : <span id="price">$<span class="price" data-productid="${cartItem.productId}" data-sizeid="${cartItem.sizeId}" data-circleid="${cartItem.circleId}">${calculateTotalPrice(productInfo.price, cartItem.quantity)}</span></span></div>
+        </div>
+        <div class="primary-buttons">
+        <div class="button-container">
+            <button class="add-btn" data-productid="${cartItem.productId}" data-sizeid="${cartItem.sizeId}" data-circleid="${cartItem.circleId}"><i class="ri-add-line"></i></button>
+            <div id="quantity"><span id="qty"><span class="quantity" data-productid="${cartItem.productId}" data-sizeid="${cartItem.sizeId}" data-circleid="${cartItem.circleId}">${cartItem.quantity || 1}</span></span></div>
+            <button class="subtract-btn" data-productid="${cartItem.productId}" data-sizeid="${cartItem.sizeId}" data-circleid="${cartItem.circleId}"><i class="ri-subtract-line"></i></button>
+        </div>
+        </div>
+        <div class="button-details">
+            <button class="remove-btn" data-productid="${cartItem.productId}" data-sizeid="${cartItem.sizeId}" data-circleid="${cartItem.circleId}"><i class="ri-close-fill"></i></button>
+        </div>
+        <div class="goback">
+            <button class= "details" id="go-back" data-productId="${cartItem.productId}"><i class="ri-eye-line"></i></button>
+        </div>
+        </div>
+          
+        `;
+                        const goBackButton = productDetails.querySelector('.details');
+                        goBackButton.addEventListener('click', function () {
+                            // Retrieve the productId from the data-productId attribute
+                            const productId = this.getAttribute('data-productId');
+
+                            // Call the goBack function with the productId
+                            goBack(productId);
+                        });
+                        updateCartCount();
+                        // Set data attributes for identification
+                        productDetails.dataset.productId = cartItem.productId;
+                        productDetails.dataset.sizeId = cartItem.sizeId;
+                        productDetails.dataset.circleId = cartItem.circleId;
+
+                        cartDetailsContainer.appendChild(productDetails);
+
+                        // Add click event listener to the add button
+                        const addButton = productDetails.querySelector('.add-btn');
+                        addButton.addEventListener('click', function () {
+                            updateQuantity(cartItem.productId, cartItem.sizeId, cartItem.circleId, 1);
+                        });
+
+                        // Add click event listener to the subtract button
+                        const subtractButton = productDetails.querySelector('.subtract-btn');
+                        subtractButton.addEventListener('click', function () {
+                            updateQuantity(cartItem.productId, cartItem.sizeId, cartItem.circleId, -1);
+                        });
+
+                        // Add click event listener to the remove button
+                        const removeButton = productDetails.querySelector('.remove-btn');
+                        removeButton.addEventListener('click', function () {
+                            removeCartItem(cartItem.productId, cartItem.sizeId, cartItem.circleId);
+                            // Remove the displayed product details from the UI
+                            productDetails.remove();
+                        });
+
+                    })
+                    .catch(error => console.error('Error fetching product.json:', error));
+            }
+            function updateTotalPrice() {
+                // Retrieve cart data from local storage
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Calculate the total price for all items in the cart
+                const totalPrice = cart.reduce((total, item) => {
+                    const productPrice = parseFloat(localStorage.getItem(`productPrice-${item.productId}`)) || 0;
+                    return total + calculateTotalPrice(productPrice, item.quantity);
+                }, 0);
+
+                // Display the total price in the heading
+
+                const totalspan = document.getElementById('sub-total');
+                if (totalspan) {
+                    totalspan.textContent = `$${totalPrice.toFixed(2)}`
+                }
+                const multipliedCountHeading = document.getElementById('multiplied-cart-count');
+                const multipliedCount = multipliedCountHeading ? parseFloat(multipliedCountHeading.textContent.match(/\$([\d.]+)/)[1]) || 0 : 0;
+                const totalPriceSumHeading = document.getElementById('total-price-sum');
+                if (!totalPriceSumHeading) {
+                    const sumHeading = document.createElement('span');
+                    sumHeading.id = 'total-price-sum';
+                    document.body.appendChild(sumHeading);
+                }
+
+                // Display the sum of total price and multiplied count in the new heading with a dollar sign
+                const newTotalPriceSumHeading = document.getElementById('total-price-sum');
+                if (newTotalPriceSumHeading) {
+                    const totalSum = totalPrice + multipliedCount;
+                    newTotalPriceSumHeading.textContent = `$${totalSum.toFixed(2)}`;
+                }
+
+            }
+            // Function to remove HTML element for a given cart item
+            function removeProductElement(cartItem) {
+                const selector = `[data-product-id="${cartItem.productId}"][data-size-id="${cartItem.sizeId}"][data-circle-id="${cartItem.circleId}"]`;
+                const removedElement = document.querySelector(selector);
+
+                if (removedElement) {
+                    removedElement.remove();
+                    console.log(`Item removed: Product ID ${cartItem.productId}, Size ID ${cartItem.sizeId}, Circle ID ${cartItem.circleId}`);
+                }
+            }
+
+            // Function to update cart details
+            function updateCartDetails() {
+                const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Check for new items added to the cart
+                const newItems = currentCart.filter(item => !cart.some(existingItem =>
+                    existingItem.productId === item.productId &&
+                    existingItem.sizeId === item.sizeId &&
+                    existingItem.circleId === item.circleId
+                ));
+
+                if (newItems.length > 0) {
+                    // Display details for new items
+                    newItems.forEach(displayProductDetails);
+
+                    // Update the cart for the next iteration
+                    cart.push(...newItems);
+                } else {
+                    console.log("No new items added.");
+                }
+
+                // Check for removed items from the cart
+                const removedItems = cart.filter(existingItem => !currentCart.some(item =>
+                    existingItem.productId === item.productId &&
+                    existingItem.sizeId === item.sizeId &&
+                    existingItem.circleId === item.circleId
+                ));
+
+                if (removedItems.length > 0) {
+                    // Remove details for deleted items
+                    removedItems.forEach(removeProductElement);
+
+                    // Update the cart for the next iteration
+                    cart = currentCart;
+                } else {
+                    console.log("No items removed.");
+                }
+                updateTotalPrice();
+            }
+
+            // Initial display of product details
+            cart.forEach(displayProductDetails);
+
+            // Check for new and removed details every second
+            setInterval(updateCartDetails, 1000);
+
+            function updateQuantity(productId, sizeId, circleId, change) {
+                // Retrieve cart data from local storage
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Find the item in the cart
+                const itemIndex = cart.findIndex(item => item.productId === productId && item.sizeId === sizeId && item.circleId === circleId);
+
+                // If the item is found, update the quantity
+                if (itemIndex !== -1) {
+                    cart[itemIndex].quantity = Math.max((cart[itemIndex].quantity || 1) + change, 1);
+
+                    // Update the cart data in local storage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                    // Update the displayed quantity and price immediately
+                    const quantityElement = document.querySelector(`.quantity[data-productid="${productId}"][data-sizeid="${sizeId}"][data-circleid="${circleId}"]`);
+                    if (quantityElement) {
+                        quantityElement.textContent = cart[itemIndex].quantity;
+                    }
+
+                    // Update the displayed price immediately
+                    const priceElement = document.querySelector(`.price[data-productid="${productId}"][data-sizeid="${sizeId}"][data-circleid="${circleId}"]`);
+                    if (priceElement) {
+                        const productPrice = parseFloat(localStorage.getItem(`productPrice-${productId}`)) || 0;
+                        priceElement.textContent = calculateTotalPrice(productPrice, cart[itemIndex].quantity);
+                    }
+
+                    // Log the changes to the console
+                    console.log(`Quantity updated for Product ID: ${productId}, Size ID: ${sizeId}, Circle ID: ${circleId} - New Quantity: ${cart[itemIndex].quantity}`);
+                    console.log('Updated cart:', cart);
+                    updateCartCount();
+                }
+            }
+            function removeCartItem(productId, sizeId, circleId) {
+                // Retrieve cart data from local storage
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Find the index of the item to be removed
+                const index = cart.findIndex(item => item.productId === productId && item.sizeId === sizeId && item.circleId === circleId);
+
+                // If the item is found, remove it from the cart
+                if (index !== -1) {
+                    // Log the removal before modifying the cart
+                    console.log(`Item removed: Product ID ${productId}, Size ID ${sizeId}, Circle ID ${circleId}`);
+
+                    // Remove the item from the cart
+                    cart.splice(index, 1);
+
+                    // Update the cart data in local storage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                }
+            }
+            function updateCartCount() {
+                // Retrieve cart data from local storage
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Calculate the total quantity of items in the cart
+                const totalQuantity = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+                // Display the total quantity in the heading
+                const cartCountHeading = document.getElementById('cart-count');
+                if (cartCountHeading) {
+                    cartCountHeading.textContent = `${totalQuantity} Items`;
+                }
+                const countSpan = document.getElementById('count');
+                if (countSpan) {
+                    countSpan.textContent = totalQuantity.toString();
+                }
+                const itemspan = document.getElementById('cartitems')
+                if (itemspan) {
+                    itemspan.textContent = totalQuantity.toString();
+                    window.parent.postMessage({ totalQuantity }, '*');
+
+                }
+
+                const multipliedCountHeading = document.getElementById('multiplied-cart-count');
+                if (!multipliedCountHeading) {
+                    const newHeading = document.createElement('h1');
+                    newHeading.id = 'multiplied-cart-count';
+                    document.body.appendChild(newHeading);
+                }
+
+                // Display the multiplied count in the new heading
+                const newCartCountHeading = document.getElementById('multiplied-cart-count');
+                if (newCartCountHeading) {
+                    const multipliedCount = totalQuantity * 4;
+                    newCartCountHeading.textContent = `$${multipliedCount}`;
+                }
+                // Update the tax amount and display in both elements
+
+
+            }
+
+
+            function calculateTotalPrice(productPrice, quantity) {
+                return (productPrice || 0) * (quantity || 1);
+            }
+        });
+
+
+        // Function to update the quantity and recalculate the price
+
+        function getColorImage(circleId, productInfo) {
+            return circleId === '5' ? productInfo.colorimg1 : (circleId === '6' ? productInfo.colorimg2 : '');
+        }
+
+        function getColorName(circleId) {
+            return circleId === '5' ? 'Aquamarine' : (circleId === '6' ? 'SeaGreen' : 'Unknown');
+        }
+        function getSizeLetter(sizeId) {
+            const sizeMap = {
+                '1': 'S',
+                '2': 'M',
+                '3': 'L',
+                '4': 'XL'
+                // Add more size mappings if needed
+            };
+            return sizeMap[sizeId] || sizeId; // Default to the original size ID if not found in the map
+        }
+        // Function to calculate the total price based on product price and quantity
+
+
+        function goBack(productId) {
+            // Dynamically determine the base URL
+            const baseUrl = window.location.origin;
+
+            // Construct the URL based on the product ID and the dynamically determined base URL
+            const url = `${baseUrl}/product-details.html?id=${productId}`;
+            window.location.href = url;
+        }
+        function updateWishlistCount() {
+            // Fetch wishlist items from localStorage
+            const storedProducts = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            // Update the wishlist count in the header
+            const wishlistCountSpan = document.getElementById('wishlist-count');
+            if (wishlistCountSpan) {
+                wishlistCountSpan.textContent = storedProducts.length;
+            }
+        }
+
+        // Initial update
+        updateWishlistCount();
+
+        // Periodically update every 2 seconds
+        setInterval(updateWishlistCount, 1000);
+        const searchIcon = document.getElementById('searchIcon');
+        const searchInput = document.getElementById('searchInput');
+        let products;
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch('product.json');
+                products = await response.json();
+            } catch (error) {
+                console.error('Error fetching product data:', error);
+            }
+        };
+
+        fetchData();
+
+        function hideSearch() {
+            searchIcon.style.opacity = 0;
+            searchInput.style.opacity = 1;
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        function showSearch() {
+            searchIcon.style.opacity = 1;
+            searchInput.style.opacity = 0;
+            document.removeEventListener('click', handleOutsideClick); // Remove the event listener
+        }
+
+        function toggleSearch() {
+            hideSearch();
+        }
+
+        function handleOutsideClick(event) {
+            if (!event.target.closest('.search')) {
+                showSearch();
+            }
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const inputValue = searchInput.value.toLowerCase();
+                const matchingProducts = products.filter(product => (
+                    product.name.toLowerCase().includes(inputValue) || product.company.toLowerCase().includes(inputValue)
+                ));
+
+                if (matchingProducts.length > 0) {
+                    const product = matchingProducts[0]; // Assuming the first matching product
+                    const isConfirmed = confirm(`Product found!\n\nName: ${product.name}\nCompany: ${product.company}\n\nOptions:\n1. Okay\n2. Visit`);
+
+                    if (isConfirmed) {
+                        const productDetailsURL = `${window.location.origin}/product-details.html?id=${product.id}`;
+                        window.location.href = productDetailsURL;
+                    } else {
+                        alert('Product not available.');
+                    }
+                } else {
+                    alert('Product not available.');
+                }
+
+                // Reset the search input
+                searchInput.value = '';
+                showSearch();
+            }
+        }
+
+        // Attach the event listener to the input
+        searchInput.addEventListener('keyup', handleSearch);
+
+    </script>
+    <script>
+
+
+        document.getElementById('signin-btn').addEventListener('click', openForm);
+
+        function openForm() {
+            var signinForm = document.getElementById('signin-form');
+            signinForm.style.display = 'block';
+
+            // Set initial position above the viewport
+            signinForm.style.top = '-100%';
+
+            // Animate the sliding down effect
+            var currentPosition = -100;
+            var slideDownInterval = setInterval(function () {
+                currentPosition += 5;
+                signinForm.style.top = currentPosition + '%';
+
+                // Stop the interval when the form reaches the desired position
+                if (currentPosition >= 50) {
+                    clearInterval(slideDownInterval);
+                }
+            }, 15);
+
+            // Store the form visibility state in localStorage
+            localStorage.setItem('formVisible', 'true');
+        }
+
+        function closeForm() {
+            var signinForm = document.getElementById('signin-form');
+
+            // Add a transition duration for a smooth sliding effect
+            signinForm.style.transition = 'top 0.8s ease-in-out';
+
+            // Animate the sliding up effect
+            var currentPosition = parseFloat(signinForm.style.top); // Get the current position as a floating-point number
+            var slideUpInterval = setInterval(function () {
+                currentPosition -= 5;
+                signinForm.style.top = currentPosition + '%';
+
+                // Stop the interval when the form reaches above the viewport
+                if (currentPosition <= -100) {
+                    clearInterval(slideUpInterval);
+                    signinForm.style.display = 'none';
+                    signinForm.style.transition = ''; // Remove the transition property after the animation
+                }
+            }, 10);
+
+            // Remove the form visibility state from localStorage
+            localStorage.removeItem('formVisible');
+        }
+        document.getElementById('signup-btn').addEventListener('click', function () {
+            openSignup();
+            closeForm();
+        });
+
+        function openSignup() {
+
+            var signinForm = document.getElementById('signup-container');
+            signinForm.style.display = 'block';
+
+            // Set initial position above the viewport
+            signinForm.style.top = '-100%';
+
+            // Animate the sliding down effect
+            var currentPosition = -100;
+            var slideDownInterval = setInterval(function () {
+                currentPosition += 5;
+                signinForm.style.top = currentPosition + '%';
+
+                // Stop the interval when the form reaches the desired position
+                if (currentPosition >= 50) {
+                    clearInterval(slideDownInterval);
+                }
+            }, 15);
+
+            // Store the form visibility state in localStorage
+            localStorage.setItem('formVisible', 'true');
+        }
+
+        function closeSignupForm() {
+            var signinForm = document.getElementById('signup-container');
+
+            // Set initial position at the current scroll position
+            signinForm.style.top = window.scrollY + 'px';
+
+            // Add a transition duration for a smooth sliding effect
+            signinForm.style.transition = 'top 0.8s ease-in-out';
+
+            // Animate the sliding up effect
+            var currentPosition = window.scrollY;
+            currentPosition -= signinForm.clientHeight;
+
+            signinForm.style.top = currentPosition + 'px';
+
+            // Listen for the transitionend event to remove the form visibility state
+            signinForm.addEventListener('transitionend', function () {
+                signinForm.style.display = 'none';
+                signinForm.style.transition = ''; // Remove the transition property after the animation
+            }, { once: true });
+
+            // Remove the form visibility state from localStorage
+            localStorage.removeItem('formVisible');
+        }
+    </script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
